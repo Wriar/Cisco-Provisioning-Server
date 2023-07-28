@@ -1,12 +1,12 @@
-<h1 style="text-align: center">Cisco Provisioning Manager 0.0.1a</h1>
+<h1 align="center" style="text-align: center;">Cisco Provisioning Manager 0.0.1a</h1>
 
 
 
 <div style="text-align: center;">
 <img src="image1.png" alt="CPM Dashboard" style="max-height: 300px; text-align: center;">
 </div>
-<h3 style="text-align: center">Overview</h3>
-<p style="text-align: center;">
+<h3 align="center" style="text-align: center">Overview</h3>
+<p align="center" style="text-align: center;">
 Cisco Provisioning Manager (CPM) is a cutting-edge open-source solution designed to revolutionize the management and remote control of multiple Cisco Phones from a single workstation. It offers a highly efficient HTTP provisioning system for Cisco endpoints, making it easier than ever to handle device configurations.
 </p>
 
