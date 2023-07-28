@@ -1,0 +1,152 @@
+@import "_variables.scss";
+@import "_colors.scss";
+@import "_logobar.scss";
+@import "_sidebar.scss";
+@import "_mobile-sidebar.scss";
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+
+
+body {
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+
+    background-color: $BACKGROUND;
+    color-scheme: dark;
+}
+
+
+
+nav {
+    background-color: $DARKGRAY;
+    font-size: $NAV_FONT_SIZE;
+    padding: $NAV_TOP_PADDING 0 $NAV_TOP_PADDING 0;
+
+    gap: 1rem;
+
+    display: flex;
+    justify-content: flex-end;
+    position: fixed;
+    width: 100%;
+
+    //Login Gray Text
+    span {
+        color: $LIGHT_TEXT;
+        //Disable selecting
+        user-select: none;
+    }
+
+    span:hover {
+        color: rgb(181, 181, 181);
+    }
+
+}
+
+.logo img {
+    margin-top: ($NAV_FONT_SIZE * $PG_LINE_HEIGHT_MULTIPLIER + $NAV_TOP_PADDING * 2);
+}
+
+footer {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    background-color: $DARKGRAY;
+    color: $LIGHT_TEXT;
+    font-size: 0.8rem;
+    padding: 3px 10px 3px 10px;
+    text-align: center;
+
+    //Disable selecting
+    user-select: none;
+}
+
+.main {
+    margin-left: $SIDEBAR_WIDTH;
+
+    .internal {
+        padding: 16px;
+
+        h1 {
+            color: white;
+            font-weight: lighter;
+            margin: 0px;
+        }
+
+        p {
+            color: gainsboro;
+            font-style: italic;
+        }
+    }
+}
+
+.menuItem {
+    background-color: #4c6c7e;
+
+    button {
+        background-color: #4c6c7e;
+        color: whitesmoke;
+        border: 0px;
+        font-size: 1rem;
+        padding: 10px;
+        cursor: pointer;
+        outline: none;
+
+        transition: all ease-in-out 0.2s;
+    }
+
+    button:hover {
+        background-color: #5c7c8e;
+    }
+}
+
+.tabMenu {
+    margin-top: 2rem;
+}
+
+.tabContainer {
+
+    //Force all spans to stay on one line, no overflow
+    white-space: nowrap;
+    .item {
+        background-color: #4c6c7e;
+        color: gainsboro;
+        padding: 0.5rem;
+        cursor: pointer;
+
+        //Top Border Radius only
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+
+        //Disable text selecting
+        user-select: none;
+    }
+
+    .item:hover {
+        background-color: #5a7f95;
+        color: whitesmoke;
+    }
+
+    .item.active {
+        background-color: $DARKGRAY;
+        color: whitesmoke;
+        padding-top: 0.8rem;
+        padding-bottom: 0.4rem;
+    }
+}
+
+.tabBody {
+    background-color: $DARKGRAY;
+    margin-top: 0.5rem;
+
+    border-bottom-left-radius: 0.2rem;
+    border-bottom-right-radius: 0.2rem;
+
+    padding: 1rem;
+
+    p {
+        margin: 0;
+    }
+}

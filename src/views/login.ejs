@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/shared/css/master-login.css" />
+    <!--ALL IMPORT-->
+    <link rel="stylesheet" href="/shared/ico/icons.css" />
+    <link rel="stylesheet" href="/shared/css/badges.css" />
+    <link rel="stylesheet" href="/shared/css/normalize.css" />
+
+    <title>Cisco Provisioning Manager: Please Login</title>
+</head>
+
+<body>
+    <nav>
+        <span>Not Logged In. <i class="icmn-warning"></i></span>
+    </nav>
+    
+    <%- include('partials/logobar.ejs') %>
+
+    <!--[if IE]> 
+        <p style="color: red;">WARNING: Your browser is not supported. For a full list of supported browsers, <a href="/shared/browsers.html">click here</a>.</p>
+    <![endif]-->
+    
+
+    <div class="center">
+        <div class="info-wrapper">
+            <h2>Login</h2>
+            <p>Enter your username and password to access this system.</p>
+
+            <form>
+                <label for="text">Username</label>
+                <input id="username" type="text" placeholder="the"/>
+                <label for="password">Password</label>
+                <input id="password" style="background: rgb(43, 43, 43);" type="password" placeholder="******"/>
+                <button type="button" id="btn-submit" class="btn btn-primary">Login</button>
+            </form>
+
+            <span id="errorText" style="display: none;" class="error">An error has occured. Please try again.</span>
+            
+        </div>
+    </div>
+
+    <!--Server Status: TODO: May want to split into partial later-->
+    <footer>
+        <span>v0.0.1 <span data-after-text="Online" data-after-type="green-pill"></span></span>
+    </footer>
+
+    <script src="/shared/js/master-login.js"></script>
+    <script src="/shared/js/jquery-migrate-3.4.1.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+.logo {
+    background-color: $PRIMARY;
+    line-height: 0; //Disable trailing whitespace under image
+
+
+    img {
+        width: auto;
+        height: 3.5rem;
+
+        //Disable selecting & dragging
+        user-select: none;
+        -webkit-user-drag: none;
+
+    }
+}

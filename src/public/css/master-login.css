@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap");
+.logo {
+  background-color: rgb(0, 78, 146);
+  line-height: 0;
+}
+.logo img {
+  width: auto;
+  height: 3.5rem;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+body {
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  background-color: #2C3F4A;
+  color-scheme: dark;
+}
+
+nav {
+  background-color: rgb(41, 40, 40);
+  font-size: 14px;
+  padding: 3px 10px 3px 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+nav span {
+  color: gainsboro;
+  font-style: italic;
+  user-select: none;
+}
+nav span:hover {
+  color: rgb(181, 181, 181);
+  cursor: not-allowed;
+}
+nav i {
+  color: #e3a008;
+}
+
+.center {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  width: 45vw;
+  min-width: 300px;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
+}
+.center .navigation-caption {
+  background-color: rgb(41, 40, 40);
+  width: calc(100% - 10px);
+  padding: 2px 5px 2px 5px;
+  color: #006ece;
+  font-size: 0.9rem;
+}
+.center .info-wrapper {
+  padding: 10px;
+  /* background: linear-gradient(to bottom right, $PRIMARY, #002f57); */
+  background: rgb(43, 43, 43);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+}
+.center .info-wrapper h2 {
+  line-height: 1px;
+  margin-bottom: 0;
+}
+.center .info-wrapper input {
+  width: 100%;
+  padding: 6px;
+  margin: 6px 0px 6px 0px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background: rgb(43, 43, 43);
+}
+.center .info-wrapper button {
+  margin-top: 10px;
+  background-image: linear-gradient(375deg, #2a2a72 0%, #006faf 74%);
+  color: white;
+  border-radius: 4px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border: 0px;
+  transition: background-position 1s ease-in-out;
+  background-size: 300%;
+  font-weight: bold;
+}
+.center .info-wrapper button:hover {
+  background-position: 100%;
+  cursor: pointer;
+}
+
+footer {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  background-color: rgb(41, 40, 40);
+  color: gainsboro;
+  font-size: 0.8rem;
+  padding: 3px 10px 3px 10px;
+  text-align: center;
+  user-select: none;
+}
+
+.error {
+  color: #e02424;
+  border-left: 3px solid #e02424;
+  padding-left: 10px;
+  margin-top: 1rem;
+}
+
+/* whar */
+
+/*# sourceMappingURL=master-login.css.map */

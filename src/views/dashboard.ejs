@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--STYLES-->
+    <link rel="stylesheet" href="/shared/css/master-dashboard.css" />
+
+    <!--ALL IMPORT-->
+    <link rel="stylesheet" href="/shared/ico/icons.css" />
+    <link rel="stylesheet" href="/shared/css/badges.css" />
+    <link rel="stylesheet" href="/shared/css/datatables.min.css" />
+    <link rel="stylesheet" href="/shared/css/toastify.css" />
+    <link rel="stylesheet" href="/shared/css/normalize.css" />
+
+    <!--Define Safari/IOS Color Scheme-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <title>CPM Dashboard (<%= username %>)</title>
+
+</head>
+<body>
+
+    <!--Navigation Elements-->
+    <nav>
+        <span><%= username %>&ensp;<i class="icmn-user3"></i></span>
+
+        <span>Settings&ensp;<i class="icmn-cog"></i></span>
+
+        <span onclick="window.location = ('/logout');">Logout&ensp;<i class="icmn-exit3"></i></span>
+
+        <!--DO NOT REMOVE THIS (FIXES RIGHT PADDING ISSUE WITH FLEX)-->
+        <span>&nbsp;</span> 
+    </nav>
+
+    <%- include('partials/sidebar.ejs') %>
+
+    <%- include('partials/mobile-sidebar.ejs') %>
+
+
+    <div class="main" id="main">
+        <%- include('partials/logobar.ejs') %>
+        <!--End Navigation Elements-->
+        <div class="m-p">
+            <div class="flex-containers">
+                <div class="dashboard-box totalDevices" dbResponsiveFlag>
+                    <h1 id="txt-db-endpoints" class="loading"></h1>
+                    <p>Provisioned Endpoints</p>
+                </div>
+                
+                <div dbindex="1" class="dashboard-box createdDevices"  dbResponsiveFlag>
+                    <h1 id="txt-db-devices" class="loading"></h1>
+                    <p>Created Devices</p>
+                </div>
+
+                <div class="dashboard-box provisioningRequests" dbResponsiveFlag>
+                    <h1 id="txt-db-requests" class="loading"></h1>
+                    <p>Provisioning Requests</p>
+                </div>
+
+                <div class="dashboard-box errors selectable" dbResponsiveFlag>
+                    <h1 id="txt-db-errors" class="loading"></h1>
+                    <p>Request Errors <i class="icmn-new-tab"></i></p>
+                </div>
+            </div>
+
+            <div class="flex-containers">
+                <div class="log-container">
+                    <h2>Internal & Application Service Logs:</h2>
+
+                    <textarea autocomplete="off" wrap="off" id="log" name="log" readonly>Loading...</textarea>
+
+                    <button onclick="getServerLogs(true);logErrorCount = 0;" class="blue"><i class="icmn-loop3"></i> Reload</button>
+
+                    <button onclick="startStopLogging();" id="btnStartStopLogs" class="yellow"><i id="btnStartStopLogsIcon" class="icmn-pause2"></i> Pause</button>
+
+                    <button class="red"><i class="icmn-bin"></i> Erase</button>
+
+                    <button onclick="downloadLogs();" class="green"><i class="icmn-download8"></i></button>
+
+                    <span id="log-status" class="log-status"></span>
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+    
+
+    <!--TODO: DYNAMIC-->
+    <footer>
+        <span><i class='icmn-lock2'></i> v0.0.1 <span data-after-text="Online" data-after-type="green-pill"></span></span>
+    </footer>
+
+
+    <script src="/shared/js/toast-support.js"></script>
+
+    <script src="/shared/js/master-dashboard.js"></script>
+    <script src="/shared/js/dashboard-logger.js"></script>
+    <script src="/shared/js/toastify.min.js"></script>
+    <script src="/shared/js/responsiveAdjust.js"></script>
+    <script src="/shared/js/jquery-3.7.0.min.js"></script>
+    <script src="/shared/js/jquery-migrate-3.4.1.min.js"></script>
+    <script src="/shared/js/datatables.min.js"></script>
+    <script src="/shared/js/clocksync.js" defer></script>
+</body>
+</html>

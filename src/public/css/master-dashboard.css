@@ -1,0 +1,294 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap");
+.logo {
+  background-color: rgb(0, 78, 146);
+  line-height: 0;
+}
+.logo img {
+  width: auto;
+  height: 3.5rem;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.sidebar {
+  position: fixed;
+  height: 100%;
+  width: 180px;
+  z-index: 69;
+  top: 1;
+  left: 0;
+  background-color: rgb(41, 40, 40);
+  overflow-x: hidden;
+  padding-top: 20px;
+  box-shadow: 0 22.1px 10px 0 rgba(0, 0, 0, 0.2);
+}
+.sidebar .clock {
+  margin-top: 1rem;
+  color: rgb(238, 238, 238);
+  text-align: center;
+  font-weight: normal;
+  user-select: none;
+}
+.sidebar a {
+  display: block;
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 0.5rem 0 0.5rem 0.5rem;
+  color: rgb(238, 238, 238);
+  margin-bottom: 0.4rem;
+  text-decoration: none;
+}
+.sidebar a:hover {
+  background-color: dimgray;
+  cursor: pointer;
+}
+.sidebar .first {
+  margin-top: 1rem;
+}
+
+.mobile-sidebar {
+  position: fixed;
+  height: 100%;
+  width: 40px; /* Don't change - Defined in JS */
+  z-index: 69;
+  top: 1;
+  left: 0;
+  background-color: rgb(41, 40, 40);
+  overflow-x: hidden;
+  padding-top: 20px;
+  box-shadow: 0 22.1px 10px 0 rgba(0, 0, 0, 0.2);
+}
+.mobile-sidebar a {
+  display: block;
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 0.5rem 0 0.5rem 0.5rem;
+  color: rgb(238, 238, 238);
+  margin-bottom: 0.4rem;
+  text-decoration: none;
+}
+.mobile-sidebar a:hover {
+  background-color: dimgray;
+  cursor: pointer;
+}
+
+body {
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  background-color: #2C3F4A;
+  color-scheme: dark;
+}
+
+nav {
+  background-color: rgb(41, 40, 40);
+  font-size: 14px;
+  padding: 3px 0 3px 0;
+  gap: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  width: 100%;
+}
+nav span {
+  color: gainsboro;
+  user-select: none;
+}
+nav span:hover {
+  color: rgb(181, 181, 181);
+}
+
+.logo img {
+  margin-top: 22.1px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  background-color: rgb(41, 40, 40);
+  color: gainsboro;
+  font-size: 0.8rem;
+  padding: 3px 10px 3px 10px;
+  text-align: center;
+  user-select: none;
+}
+
+.main {
+  margin-left: 180px;
+}
+
+.m-p {
+  padding: 10px;
+  color: gainsboro;
+}
+
+.flex-containers {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 1rem;
+}
+.flex-containers .block {
+  width: 100px;
+  background-color: blue;
+}
+.flex-containers .log-container {
+  min-width: 60vw;
+  height: calc(100vh - 16.1px - 6px - 240px);
+  background-color: rgb(62, 90, 106);
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+.flex-containers .log-container h2 {
+  font-weight: normal;
+  margin-top: 0.5rem;
+  padding: 0px;
+}
+.flex-containers .log-container textarea {
+  background-color: rgb(41, 40, 40);
+  padding: 3px;
+  font-size: 0.8rem;
+  font-family: "Consolas", "Courier New", Courier, monospace;
+  width: calc(100% - 13px);
+  resize: none;
+  border: 0px;
+  color: white;
+  text-align: left;
+  padding-left: 10px;
+  overflow-y: scroll;
+  height: calc(100% - 30px - 1.84rem - 40px);
+  overflow-x: scroll;
+}
+.flex-containers .log-container button {
+  margin-top: 0.5rem;
+  height: 30px;
+  transition: all ease-in-out 0.1s;
+  border: 1px solid #5d879f;
+  border-radius: 5px;
+}
+.flex-containers .log-container button:hover {
+  filter: brightness(0.8);
+}
+.flex-containers .log-container button.red {
+  background-color: rgb(41, 40, 40);
+  color: gainsboro;
+}
+.flex-containers .log-container button.red i {
+  color: #e02424;
+}
+.flex-containers .log-container button.yellow {
+  background-color: rgb(41, 40, 40);
+  color: gainsboro;
+}
+.flex-containers .log-container button.yellow i {
+  color: darkorange;
+}
+.flex-containers .log-container button.blue {
+  background-color: rgb(41, 40, 40);
+  color: gainsboro;
+}
+.flex-containers .log-container button.blue i {
+  color: #3f83f8;
+}
+.flex-containers .log-container .log-status {
+  font-style: italic;
+  font-size: 0.7rem;
+}
+.flex-containers .dashboard-box {
+  width: 250px;
+  height: 100px;
+  border-radius: 5px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  padding: 10px;
+}
+.flex-containers .dashboard-box h1 {
+  font-size: 50px;
+  margin: 0px;
+  color: white;
+  font-weight: normal;
+}
+.flex-containers .dashboard-box p {
+  font-size: 1rem;
+  margin-top: 15px;
+  font-weight: normal;
+  font-style: italic;
+  color: hsl(202, 26%, 90%);
+  user-select: none;
+}
+.flex-containers .dashboard-box.totalDevices {
+  background-color: rgb(62, 90, 106);
+  background-image: url("/shared/ico/ui/connection-fg.svg");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  padding: 10px 10px 10px 10px;
+}
+.flex-containers .dashboard-box.createdDevices {
+  background-color: rgb(62, 90, 106);
+  background-image: url("/shared/ico/ui/devices-fg.svg");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  padding: 10px 10px 10px 10px;
+}
+.flex-containers .dashboard-box.provisioningRequests {
+  background-color: rgb(62, 90, 106);
+  background-image: url("/shared/ico/ui/provisioning-fg.svg");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  padding: 10px 10px 10px 10px;
+}
+.flex-containers .dashboard-box.errors {
+  background-color: rgb(62, 90, 106);
+  background-image: url("/shared/ico/ui/proverr-fg.svg");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 90px 90px;
+  padding: 10px 10px 10px 10px;
+}
+.flex-containers .dashboard-box.green {
+  background: linear-gradient(45deg, #00b09b, #96c93d);
+}
+.flex-containers .dashboard-box.blue {
+  background: #3e5a6a;
+}
+.flex-containers .dashboard-box.red {
+  background: linear-gradient(45deg, #f83600, #f9d423);
+}
+.flex-containers .dashboard-box.selectable {
+  cursor: pointer;
+  transition: all ease-in-out 0.2s;
+}
+.flex-containers .dashboard-box.selectable:hover {
+  background-color: rgb(85, 120, 140);
+}
+
+h1.loading::after {
+  content: "KYSRN";
+  border-radius: 30%;
+  color: rgb(62, 90, 106);
+  width: 100%;
+  height: 75%;
+  filter: blur(20px);
+  animation: wipe-colors 1s ease-in-out infinite;
+}
+
+@keyframes wipe-colors {
+  0% {
+    background-color: rgb(62, 90, 106);
+    left: -100%;
+  }
+  50% {
+    background-color: rgb(77, 108, 127);
+    left: 0;
+  }
+  100% {
+    background-color: rgb(62, 90, 106);
+    left: 100%;
+  }
+}
+
+/*# sourceMappingURL=master-dashboard.css.map */

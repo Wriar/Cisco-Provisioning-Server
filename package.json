@@ -1,0 +1,44 @@
+{
+  "name": "cisco-provisioning",
+  "version": "1.0.0",
+  "description": "Provides a unified client to provision Cisco devices.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "dev": "concurrently -raw \"sass --watch src/public/scss/:src/public/css/\" \"nodemon src/server.js\"",
+    "dev-new": "sass --watch src/public/scss/:src/public/css/ && nodemon src/server.js",
+    "dev-prod": "concurrently \"sass --watch src/public/scss/:src/public/css/ --style compressed\" \"nodemon src/server.js\"",
+    "a": "nodemon src/server.js",
+    "b": "sass --watch src/public/scss/:src/public/css/"
+  },
+  "author": "Wriar",
+  "license": "MIT",
+  "dependencies": {
+    "argon2": "^0.30.3",
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.1.4",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "fs": "^0.0.1-security",
+    "nodemon": "^2.0.22",
+    "path": "^0.12.7",
+    "request-ip": "^3.3.0",
+    "sass": "^1.63.4",
+    "ssh2": "^1.13.0",
+    "xml2js": "^0.6.0",
+    "xmlbuilder2": "^3.1.1"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "node_modules/**/node_modules",
+      "src/views/**/*",
+      "src/public/**/*",
+      "data.json"
+    ]
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}

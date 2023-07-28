@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPM Dashboard - Devices (<%= username %>)</title>
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/shared/css/master-devices.css" />
+
+    <!--ALL IMPORT-->
+    <link rel="stylesheet" href="/shared/ico/icons.css" />
+    <link rel="stylesheet" href="/shared/css/badges.css" />
+    <link rel="stylesheet" href="/shared/css/datatables.min.css" />
+    <link rel="stylesheet" href="/shared/css/toastify.css" />
+    <link rel="stylesheet" href="/shared/css/normalize.css" />
+
+    <!--Define Safari/IOS Color Scheme-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+</head>
+<body>
+    <!--Navigation Elements-->
+    <nav>
+        <span><%= username %>&ensp;<i class="icmn-user3"></i></span>
+
+        <span>Settings&ensp;<i class="icmn-cog"></i></span>
+
+        <span onclick="window.location = ('/logout');">Logout&ensp;<i class="icmn-exit3"></i></span>
+
+        <!--DO NOT REMOVE THIS (FIXES RIGHT PADDING ISSUE WITH FLEX)-->
+        <span>&nbsp;</span> 
+    </nav>
+
+    <%- include('partials/sidebar.ejs') %>
+
+    <%- include('partials/mobile-sidebar.ejs') %>
+
+    <div class="main" id="main">
+        <%- include('partials/logobar.ejs') %>
+        <!--End Navigation Elements-->
+
+        <div class="menuItem" id="menuItem">
+            <button onclick="window.location = ('/dashboard/addDevice?amod=new');"><i class="icmn-plus3"></i> Create New</button>
+            <button><i class="icmn-select"></i> Select All</button>
+            <button><i class="icmn-grid7"></i> Deselect All</button>
+            <button><i class="icmn-bin"></i> Delete Selection</button>
+            <button><i class="icmn-database-refresh"></i> Reprovision Selection</button>
+            <button><i class="icmn-database-export"></i> Export Selection</button>
+            <button onclick="location.reload()"><i class="icmn-loop3"></i> Refresh</button>
+        </div>
+        <div class="internal">
+            <h1>Provisioned Devices</h1>
+            <p>This page contains a list of Cisco devices that are added to CPM. You may create or modify a device at any time, and changes will be applied the next time the device provisions from the server. You may remotely provision the device immediately by using CPM's remote provisioning utility or by selecting the "Reprovision" or "Reprovision Selection" buttons.</p>
+        
+            <table id="deviceDisplay" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAllCheckbox" autocomplete="off"></th>
+                        <th>Name</th>
+                        <th>IP Address</th>
+                        <th>MAC Address</th>
+                        <th>Model</th>
+                        <th>Groups</th>
+                        <th>Extension</th>
+                        <th>Status</th>
+                        <th>Last Ping</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let i = 0; i < devices.length; i++) { %>
+                        <tr>
+                            <td><!--Checkbox --></td>
+                            <td><%= devices[i].name || 'N/A' %></td>
+                            <td><%= devices[i].ip || 'N/A' %></td>
+                            <td><%= devices[i].mac || 'N/A' %></td>
+                            <td><%= devices[i].model || 'N/A' %></td>
+                            <td><%= devices[i].groups || 'None' %></td>
+                            <td><%= devices[i].extension || 'N/A' %></td>
+                            <td>
+                                <% if (devices[i].enabled) { %>
+                                    <span data-after-text="Enabled" data-after-type="green-pill"><span class="hidden">Enabled <!--Allows For DT Searching--></span></span>
+                                <% } else { %>
+                                    <span data-after-text="Disabled" data-after-type="red-pill"><span class="hidden">Disabled</span> <!--Allows for DT Searching --></span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <% if (devices[i].lastPing === null || devices[i].lastPing === undefined) { %>
+                                    N/A
+                                  <% } else if (devices[i].lastPing === 'Never') { %>
+                                    <i class="icmn-warning yh"></i> Never
+                                  <% } else { %>
+                                    <%= devices[i].lastPing %>
+                                  <% } %>
+                            </td>
+                            <td>
+                                <a title="Edit Device" href="/dashboard/addDevice?astat=mod&data=<%= devices[i].uuid %>"><i class="icmn-pencil"></i></a>&nbsp;
+                                <a title="Duplicate Device" href="/"><i class="icmn-copy4 g"></i></a>&nbsp;
+                                <a title="Copy UUID" href="javascript:cp(`<%= devices[i].uuid %>`, true, 'UUID');"><i class="icmn-price-tag3 y"></i></a>
+                            </td>
+                        </tr>
+                    <% } %>
+                    
+                    
+                </tbody>
+            </table>
+
+
+        
+        </div>
+        
+    </div>
+    
+
+    <!--TODO: DYNAMIC-->
+    <footer>
+        <span><i class='icmn-lock2'></i> v0.0.1 <span data-after-text="Online" data-after-type="green-pill"></span></span>
+    </footer>
+
+    <script src="/shared/js/toast-support.js"></script>
+
+    <script src="/shared/js/master-devices.js"></script>
+    <script src="/shared/js/toastify.min.js"></script>
+    <script src="/shared/js/responsiveAdjust.js"></script>
+    <script src="/shared/js/jquery-3.7.0.min.js"></script>
+    <script src="/shared/js/jquery-migrate-3.4.1.min.js"></script>
+    <script src="/shared/js/copier.js"></script>
+
+
+    <script src="/shared/js/datatables.min.js"></script>
+    <script src="/shared/js/dt-utils.js" defer></script>
+
+    <script src="/shared/js/clocksync.js" defer></script>
+    <script defer>
+        $('#deviceDisplay').DataTable({
+            "order": [[0, "asc"]],
+            "columnDefs": [{
+                "targets": 0, // The CHKBOX column
+                "searchable": false,
+                "orderable": false,
+                "render": function (data, type, full, meta) {
+                    return '<input type="checkbox" class="checkbox">';
+                }
+            }]
+        });
+
+        $(document).ready(function () {
+            // Handle "select all" checkbox
+            $('#selectAllCheckbox').change(function () {
+                var isChecked = $(this).is(':checked');
+                var table = $('#deviceDisplay').DataTable();
+                var checkboxes = table.column(0, { search: 'applied' }).nodes().to$().find(':checkbox');
+
+                checkboxes.prop('checked', isChecked);
+            });
+        });
+
+    </script>
+</body>
+</html>

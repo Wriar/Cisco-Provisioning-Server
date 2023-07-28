@@ -1,0 +1,216 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap");
+.logo {
+  background-color: rgb(0, 78, 146);
+  line-height: 0;
+}
+.logo img {
+  width: auto;
+  height: 3.5rem;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.sidebar {
+  position: fixed;
+  height: 100%;
+  width: 180px;
+  z-index: 69;
+  top: 1;
+  left: 0;
+  background-color: rgb(41, 40, 40);
+  overflow-x: hidden;
+  padding-top: 20px;
+  box-shadow: 0 22.1px 10px 0 rgba(0, 0, 0, 0.2);
+}
+.sidebar .clock {
+  margin-top: 1rem;
+  color: rgb(238, 238, 238);
+  text-align: center;
+  font-weight: normal;
+  user-select: none;
+}
+.sidebar a {
+  display: block;
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 0.5rem 0 0.5rem 0.5rem;
+  color: rgb(238, 238, 238);
+  margin-bottom: 0.4rem;
+  text-decoration: none;
+}
+.sidebar a:hover {
+  background-color: dimgray;
+  cursor: pointer;
+}
+.sidebar .first {
+  margin-top: 1rem;
+}
+
+.mobile-sidebar {
+  position: fixed;
+  height: 100%;
+  width: 40px; /* Don't change - Defined in JS */
+  z-index: 69;
+  top: 1;
+  left: 0;
+  background-color: rgb(41, 40, 40);
+  overflow-x: hidden;
+  padding-top: 20px;
+  box-shadow: 0 22.1px 10px 0 rgba(0, 0, 0, 0.2);
+}
+.mobile-sidebar a {
+  display: block;
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 0.5rem 0 0.5rem 0.5rem;
+  color: rgb(238, 238, 238);
+  margin-bottom: 0.4rem;
+  text-decoration: none;
+}
+.mobile-sidebar a:hover {
+  background-color: dimgray;
+  cursor: pointer;
+}
+
+body {
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  background-color: #2C3F4A;
+  color-scheme: dark;
+}
+
+nav {
+  background-color: rgb(41, 40, 40);
+  font-size: 14px;
+  padding: 3px 0 3px 0;
+  gap: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  width: 100%;
+}
+nav span {
+  color: gainsboro;
+  user-select: none;
+}
+nav span:hover {
+  color: rgb(181, 181, 181);
+}
+
+.logo img {
+  margin-top: 22.1px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  background-color: rgb(41, 40, 40);
+  color: gainsboro;
+  font-size: 0.8rem;
+  padding: 3px 10px 3px 10px;
+  text-align: center;
+  user-select: none;
+}
+
+.main {
+  margin-left: 180px;
+}
+.main .internal {
+  padding: 16px;
+}
+.main .internal h1 {
+  color: white;
+  font-weight: lighter;
+  margin: 0px;
+}
+.main .internal p {
+  color: gainsboro;
+  font-style: italic;
+}
+
+table {
+  background-color: rgb(41, 40, 40);
+}
+table th {
+  color: gainsboro;
+}
+table td {
+  color: white;
+}
+
+.dataTables_info {
+  color: gainsboro !important;
+  font-style: italic;
+}
+
+.dataTables_length {
+  color: gainsboro !important;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.dataTables_filter {
+  color: gainsboro !important;
+}
+
+#deviceDisplay_paginate {
+  color: white !important;
+}
+#deviceDisplay_paginate a {
+  color: gainsboro !important;
+}
+
+tbody a {
+  text-decoration: none;
+}
+tbody .g {
+  color: mediumseagreen;
+}
+tbody .g:hover {
+  color: limegreen;
+}
+tbody .y {
+  color: goldenrod;
+}
+tbody .y:hover {
+  color: yellow;
+}
+
+.yh {
+  color: goldenrod;
+}
+
+#deviceDisplay_length select option {
+  background-color: rgb(41, 40, 40);
+}
+
+.hidden {
+  display: none;
+}
+
+.m-p {
+  padding: 10px;
+  color: gainsboro;
+}
+
+.menuItem {
+  background-color: #4c6c7e;
+}
+.menuItem button {
+  background-color: #4c6c7e;
+  color: whitesmoke;
+  border: 0px;
+  font-size: 1rem;
+  padding: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all ease-in-out 0.2s;
+}
+.menuItem button:hover {
+  background-color: #5c7c8e;
+}
+
+/*# sourceMappingURL=master-devices.css.map */

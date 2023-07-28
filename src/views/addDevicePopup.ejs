@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--ALL IMPORT-->
+    <link rel="stylesheet" href="/shared/ico/icons.css" />
+    <link rel="stylesheet" href="/shared/css/badges.css" />
+    <link rel="stylesheet" href="/shared/css/toastify.css" />
+    <link rel="stylesheet" href="/shared/css/normalize.css" />
+
+    <!--Disable favicon-->
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+
+    <!--Action Styles-->
+    <link rel="stylesheet" href="/shared/css/addDevicePopup.css" />
+    <link rel="stylesheet" href="/shared/css/hint.min.css" />
+    <link rel="stylesheet" href="/shared/css/datatables.min.css" />
+
+
+
+    <title>Create New Device</title>
+</head>
+
+<body>
+    <nav>
+        <table>
+            <tr>
+                <td class="left">
+                    <span>Device Addition Utility</span>
+                </td>
+                <td class="right">
+                    <button class="red" onclick="history.back();">
+                        <i class="icmn-undo2"></i> Cancel & Return
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </nav>
+
+    <fieldset id="fieldset-status">
+        <legend>Status</legend>
+        <p id="dstatus-fresh" style="display: none" class="info mid"><i class="icmn-minus-circle2"></i>&numsp;Not Created Yet</p>
+        <p id="dstatus-new" style="display: none" class="info mid"><i class="icmn-radio-unchecked yellow"></i>&numsp;Pending Initial Provision</p>
+        <p id="dstatus-ready" style="display: none" class="info mid"><i class="icmn-checkmark-circle greenb"></i>&numsp;Ready (Up To Date)</p>
+        <p id="dstatus-readynew" style="display: none" class="info mid"><i class="icmn-loop3 greenb"></i>&numsp;Ready (Awaiting Update)</p>
+        <p id="dstatus-disabled" style="display: none" class="info mid"><i class="icmn-cancel-circle redb"></i>&numsp;Manually Disabled</p>
+        <p id="dstatus-error" style="display: none" class="info mid"><i class="icmn-cancel redb"></i>&numsp;<!--CONTEXT--></p>
+        <p id="dstatus-wait" style="display: block" class="info mid"><img draggable="false" src="/shared/ico/preloader.gif" alt="Loading...">&numsp;Loading...</p>
+    </fieldset>
+
+    <fieldset id="fieldset-info" style="display: none;">
+        <legend>Information</legend>
+        <p><i class="icmn-checkmark g-c"></i> Your device was added successfully to CPM. Here are some friendly reminders on provisioning your new system.</p>
+        
+        <table style="width: 100%;">
+            <tr>
+                <td>
+                    <h3>1. Reset Existing Configuration</h3>
+                    <span><b>a. If this is the first time configuring your device with CPM, power the device off. </b><br/><br/>
+                        <i class="icmn-arrow-right3"></i> If your phone uses PoE, unplug the ethernet port. <br/>
+                        <i class="icmn-arrow-right3"></i>If your phone uses an external power supply, disconnect the power supply.<br/>
+                        <br><b>b. Press and hold the # (pound) key then repower the phone.</b><br/>
+                        <br><b>c. As soon as the mute indicator illuminates, release the # (pound) key and <u>quickly</u> press 1, 2, 3, 4, 5, 6, 7, 8, 9, *, 0, #.</b><br/>
+                        <i class="icmn-arrow-right3"></i> On the 8800 series phones, when you press the 1, the headset indicator turns off. This is expected. <br/><br/>
+                        <b>d. Wait for device to display "Registration In Progress..." or "Registration Failed" Text.</b>
+
+                    </span>
+                </td>
+                <td>
+                    <img src="/shared/img/ciscoIPPhone1.png" style="height: 20rem;">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h3>2. Onboard New CPM Configuration</h3>
+                    <span>
+                        <b>a. Press the Settings Cog ( <i class="icmn-cog"></i> ) button</b><br/>
+                        <i class="icmn-arrow-right3"></i> Select the "Admin Settings" option.<br/><br/>
+
+                        <b>b. Select Network/Ethernet Setup</b><br/>
+                        <i class="icmn-arrow-right3"></i> Enter 'IPv4 Setup'<br/><br/>
+
+                        <b>c. Scroll to 'Alternate TFTP' and set to ON/YES</b><br/><br/>
+
+                        <b>d. Set the 'Alternate TFTP' to the IP address of the CPM server.</b><br/>
+                        <i class="icmn-arrow-right3"></i> Select 'Apply Settings'<br/><br/>
+
+                        <b>e. When the device registeres, verify the device's 'Last Ping' populates in the CPM dashboard. If the device is not added in a patched Asterisk installation, the device will not register.</b>
+
+
+
+                    </span>
+                </td>
+                <td>
+                    <img src="/shared/img/ciscoIPPhone2.png" style="height: 20rem;">
+                </td>
+            </tr>
+        </table>
+        
+    </fieldset>
+
+    <fieldset id="deviceinfoFieldset">
+        <legend>Device Information</legend>
+
+        <div class="form" autocomplete="off">
+            <label for="deviceUUID">Device UUID
+                <span class="hint--bottom" 
+                data-hint="Format: UUIDV4. Unique."><i class="icmn-info"></i></span>&nbsp;
+            </label>
+            <input autocomplete="off" type="text" id="deviceUUID"
+                placeholder="Enter or Generate a Unique Device UUID" />
+
+            <label id="deviceUUIDInput" for="deviceUUID_auto">Auto-Generate UUID</label>
+            <input id="deviceUUIDautoGen" type="checkbox" onclick="handleUUIDGenCBState(this);" />
+
+            <label for="deviceName">Device Name</label>
+            <input type="text" id="deviceName" placeholder="Name to identify device in CPM" />
+
+            <label for="deviceDescription">Device Description</label>
+            <input type="text" id="deviceDescription" placeholder="Enter a description for this device." />
+
+            <label for="deviceExtension">Device Extension</label>
+            <input type="text" id="deviceExtension" placeholder="1000" />
+
+            <label for="deviceMAC">MAC Address
+                <span class="hint--bottom" 
+                data-hint="Omit hyphens, colons, or other seperators."><i class="icmn-info"></i></span>&nbsp;
+            </label>
+            <input type="text" id="deviceMAC" placeholder="00AA22CC44DD" oninput="let p=this.selectionStart;this.value=this.value.toUpperCase();this.setSelectionRange(p, p);" />
+
+            <label for="pbxServerIP"><b>Asterisk/PBX Server IP</b></label>
+            <input type="text" id="pbxServerIP" placeholder="10.2.1.1" />
+
+
+
+        </div>
+
+    </fieldset>
+
+    <!--Line Key Fieldset-->
+    <fieldset id="lineKeyFieldset">
+        <legend>Line Keys & Registered Accounts</legend>
+        <span class="tip"><i class="icmn-info"></i> According to Cisco specifications, only one account may be officially registered per device. You must alter your Asterisk configuration to register multiple accounts. <b>The phone may automatically truncate any extenuating line keys.</b></span>
+    
+        <!--
+        <div class="controlContainer">
+            <button class="green">
+                <i class="icmn-plus3"></i> Add Line Key
+            </button>
+        </div>
+        -->
+
+        <div class="linekey">
+                        <!--
+            <label for="lkType">Line Key Type</label>
+
+            <select class="step1Select">
+                <option value="1">New Account Line</option>
+                <option value="2">Speed Dial</option>
+                <option value="3">Service URI</option>
+                <option value="4">CPM Embedded Service</option>
+                <option value="5">BLF Speed Dial</option>
+                <option value="6">Intercom</option>
+                <option value="7">Malicious Call</option>
+                <option value="8">Park</option>
+                <option value="9">Call Pickup</option>
+                <option value="10">Group Pickup</option>
+                <option value="11">Do Not Disturb</option>
+                <option value="12">New Call</option>
+                <option value="13">Hunt Group Login/Logout</option>
+                <option value="14">Record Call</option>
+            </select>
+
+            <button class="blue"><i class="icmn-arrow-right"></i> Next</button>
+        -->
+
+        <table id="linekeyDisplay" class="display">
+            <thead>
+                <tr>
+                    <td>Line #</td>
+                    <td>Type</td>
+                    <td>Actions</td>
+                    <td>Line Status</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><i id="line1_i" class="icmn-phone"></i> 1</td>
+                    <td>
+                        <select class="step1Select" id="line1_s">
+                            <option value="0">== ⚠️ UNREGISTERED ==</option>
+                            <option value="1">New Account Line</option>
+                            <option value="2">Speed Dial</option>
+                            <option value="3">Service URI</option>
+                            <option value="4">CPM Embedded Service</option>
+                            <option value="5">BLF Speed Dial</option>
+                            <option value="6">Intercom</option>
+                            <option value="7">Malicious Call</option>
+                            <option value="8">Park</option>
+                            <option value="9">Call Pickup</option>
+                            <option value="10">Group Pickup</option>
+                            <option value="11">Do Not Disturb</option>
+                            <option value="12">New Call</option>
+                            <option value="13">Hunt Group Login/Logout</option>
+                            <option value="14">Record Call</option>
+                        </select>
+                    </td>
+                    <td id="line1_d">
+                        <div class="tbcontain">
+                           
+
+                        </div>
+
+                    </td>
+                    <td><span id="line1_p" data-after-text="Unregistered" data-after-type="red-pill"><span style="display: none">Unregistered</span></span></td>
+                </tr>
+
+                <tr>
+                    <td><i id="line2_i" class="icmn-warning2"></i> 2</td>
+                    <td>
+                        <select class="step1Select" id="line2_s">
+                            <option value="0">== ⚠️ UNREGISTERED ==</option>
+                            <option value="1">New Account Line</option>
+                            <option value="2">Speed Dial</option>
+                            <option value="3">Service URI</option>
+                            <option value="4">CPM Embedded Service</option>
+                            <option value="5">BLF Speed Dial</option>
+                            <option value="6">Intercom</option>
+                            <option value="7">Malicious Call</option>
+                            <option value="8">Park</option>
+                            <option value="9">Call Pickup</option>
+                            <option value="10">Group Pickup</option>
+                            <option value="11">Do Not Disturb</option>
+                            <option value="12">New Call</option>
+                            <option value="13">Hunt Group Login/Logout</option>
+                            <option value="14">Record Call</option>
+                        </select>
+                    </td>
+                    <td id="line2_d">N/A</td>
+                    <td><span id="line2_p" data-after-text="Unregistered" data-after-type="red-pill"><span style="display: none">Unregistered</span></span></td>
+                </tr>
+
+                <tr>
+                    <td><i id="line3_i" class="icmn-warning2"></i> 3</td>
+                    <td>
+                        <select class="step1Select" id="line3_s">
+                            <option value="0">== ⚠️ UNREGISTERED ==</option>
+                            <option value="1">New Account Line</option>
+                            <option value="2">Speed Dial</option>
+                            <option value="3">Service URI</option>
+                            <option value="4">CPM Embedded Service</option>
+                            <option value="5">BLF Speed Dial</option>
+                            <option value="6">Intercom</option>
+                            <option value="7">Malicious Call</option>
+                            <option value="8">Park</option>
+                            <option value="9">Call Pickup</option>
+                            <option value="10">Group Pickup</option>
+                            <option value="11">Do Not Disturb</option>
+                            <option value="12">New Call</option>
+                            <option value="13">Hunt Group Login/Logout</option>
+                            <option value="14">Record Call</option>
+                        </select>
+                    </td>
+                    <td id="line3_d">N/A</td>
+                    <td><span id="line3_p" data-after-text="Unregistered" data-after-type="red-pill"><span style="display: none">Unregistered</span></span></td>
+                </tr>
+
+                <tr>
+                    <td><i id="line4_i" class="icmn-warning2"></i> 4</td>
+                    <td>
+                        <select class="step1Select" id="line4_s">
+                            <option value="0">== ⚠️ UNREGISTERED ==</option>
+                            <option value="1">New Account Line</option>
+                            <option value="2">Speed Dial</option>
+                            <option value="3">Service URI</option>
+                            <option value="4">CPM Embedded Service</option>
+                            <option value="5">BLF Speed Dial</option>
+                            <option value="6">Intercom</option>
+                            <option value="7">Malicious Call</option>
+                            <option value="8">Park</option>
+                            <option value="9">Call Pickup</option>
+                            <option value="10">Group Pickup</option>
+                            <option value="11">Do Not Disturb</option>
+                            <option value="12">New Call</option>
+                            <option value="13">Hunt Group Login/Logout</option>
+                            <option value="14">Record Call</option>
+                        </select>
+                    </td>
+                    <td id="line4_d">N/A</td>
+                    <td><span id="line4_p" data-after-text="Unregistered" data-after-type="red-pill"><span style="display: none">Unregistered</span></span></td>
+                </tr>
+
+                <tr>
+                    <td><i id="line5_i" class="icmn-warning2"></i> 5</td>
+                    <td>
+                        <select class="step1Select" id="line5_s">
+                            <option value="0">== ⚠️ UNREGISTERED ==</option>
+                            <option value="1">New Account Line</option>
+                            <option value="2">Speed Dial</option>
+                            <option value="3">Service URI</option>
+                            <option value="4">CPM Embedded Service</option>
+                            <option value="5">BLF Speed Dial</option>
+                            <option value="6">Intercom</option>
+                            <option value="7">Malicious Call</option>
+                            <option value="8">Park</option>
+                            <option value="9">Call Pickup</option>
+                            <option value="10">Group Pickup</option>
+                            <option value="11">Do Not Disturb</option>
+                            <option value="12">New Call</option>
+                            <option value="13">Hunt Group Login/Logout</option>
+                            <option value="14">Record Call</option>
+                        </select>
+                    </td>
+                    <td id="line5_d">N/A</td>
+                    <td><span id="line5_p" data-after-text="Unregistered" data-after-type="red-pill"><span style="display: none">Unregistered</span></span></td>
+                </tr>
+
+                <tr>
+                    <td><i id="line6_i" class="icmn-warning2"></i> 6</td>
+                    <td>
+                        <select class="step1Select" id="line6_s">
+                            <option value="0">== ⚠️ UNREGISTERED ==</option>
+                            <option value="1">New Account Line</option>
+                            <option value="2">Speed Dial</option>
+                            <option value="3">Service URI</option>
+                            <option value="4">CPM Embedded Service</option>
+                            <option value="5">BLF Speed Dial</option>
+                            <option value="6">Intercom</option>
+                            <option value="7">Malicious Call</option>
+                            <option value="8">Park</option>
+                            <option value="9">Call Pickup</option>
+                            <option value="10">Group Pickup</option>
+                            <option value="11">Do Not Disturb</option>
+                            <option value="12">New Call</option>
+                            <option value="13">Hunt Group Login/Logout</option>
+                            <option value="14">Record Call</option>
+                        </select>
+                    </td>
+                    <td id="line6_d">Select a valid line key to view options.</td>
+                    <td><span id="line6_p" data-after-text="Unregistered" data-after-type="red-pill"><span style="display: none">Unregistered</span></span></td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        </div>
+
+        <span class="tip"><i class="icmn-warning"></i> Some features may not function unless they are enabled on the Asterisk server.</span>
+    
+    </fieldset>
+
+    <!--Softkey Setup Fieldset TBD-->
+    <fieldset style="display: none;">
+        <legend>Softkey Setup</legend>
+
+       
+    </fieldset>
+
+    <fieldset id="cpaFieldset">
+        <legend>Common Provisioning Attributes</legend>
+        <span><i class="icmn-info"></i> For more information regarding this section, please refer to the guide <a target="_blank" href="https://usecallmanager.nz/sepmac-cnf-xml.html">here</a>.
+        For a full list of provisioning attributes, manually edit the SEP.cnf.xml file after its creation.</span>
+        <div class="form" autocomplete="off">
+
+
+            <label for="dateTemplate">dateTemplate
+                <span class="hint--bottom" 
+                data-hint="Examples:&NewLine;&NewLine;D/M/Y: 2 Digit Year, 24h Time&NewLine;D/M/YA 2 Digit Year, 12h Time&NewLine;D/M/YY 4 Digit year, 24h Time&NewLine;D/M/YYA 4 Digit Year, 12h Time"><i class="icmn-info"></i></span>&nbsp;
+            </label>
+            <input type="text" id="dateTemplate" placeholder="Enter a date template" value="D-M-YA" />
+
+
+            <label for="timeZone">timeZone (<a target="_blank" href="/shared/page/timezones.html">Options</a>)</label>
+            <input type="text" id="timeZone" placeholder="Enter a time zone" value="Mountain Standard/Daylight Time" />
+
+            <label for="ntpName">ntpName</label>
+            <input type="text" id="ntpName" placeholder="Enter an NTP server name for Unicast NTP mode" value="0.us.pool.ntp.org" />
+
+            <label for="ntpMode">ntpMode
+                <span class="hint--bottom" 
+                data-hint="Recommended: Unicast"><i class="icmn-info"></i></span>&nbsp;
+            </label>
+            <select id="ntpMode" autocomplete="off">
+                <option value="Unicast">Unicast</option>
+                <option value="directedbroadcast">directedbroadcast</option>
+            </select>
+
+            <label for="sipPort">sipPort</label>
+            <input type="number" id="sipPort" placeholder="Enter a SIP port" value="5060" />
+
+            <label for="phoneLabel">phoneLabel</label>
+            <input maxlength="11" type="text" id="phoneLabel" placeholder="Enter a Label to be displayed on the phone. (11 Char Max)"/>
+
+
+            <label for="disableSpeakerphone">disableSpeakerphone</label>
+            <select id="disableSpeakerphone" autocomplete="off">
+                <option value="false">false</option>
+                <option value="true">true</option>
+            </select>
+
+            <label for="disableSpeakerphoneAndHeadset">disableSpeakerphoneAndHeadset</label>
+            <select id="disableSpeakerphoneAndHeadset" autocomplete="off">
+                <option value="false">false</option>
+                <option value="true">true</option>
+            </select>
+
+            <label for="enableMuteFeature">disableSpeakerphoneAndHeadset</label>
+            <select id="enableMuteFeature" autocomplete="off">
+                <option value="false">false</option>
+                <option value="true">true</option>
+            </select>
+
+            <label for="voipControlPort">voipControlPort
+                <span class="hint--bottom" 
+                data-hint="In most cases should be same as PBX IP"><i class="icmn-info"></i></span>&nbsp;
+            </label>
+            <input type="number" id="voipControlPort" placeholder="Enter a VoIP control port (in most cases should be the same as your sipPort)" value="5060" />
+        </div>
+    </fieldset>
+
+    <fieldset id="propFielset">
+        <legend>Additional Properties</legend>
+        <div class="form">
+
+            
+            <label for="deviceModel">Model Type or Most Compatible Model</label>
+            <select id="deviceModel" autocomplete="off">
+                <option value="placeholder">=== CP Models ===</option>
+                <option value="1">7941, 7961, 7942, 7962</option>
+                <option value="2">7945, 7965</option>
+                <option value="3">7970, 7971</option>
+                <option value="4">7975</option>
+                <option value="5">8821</option>
+                <option value="6">8841, 8845, 8851, 8861, 8865</option>
+                <option value="7">8941, 8945</option>
+                <option value="8">8861, 9951, 9971</option>
+                <option value="placeholder2">=== Non-Wallpaper Compatible ===</option>
+                <option value="9">CP-78xx</option>
+                <option value="10">Other, SPA/(g) models, Legacy, or Backlit Only</option>
+            </select>
+
+            <label for="deviceGroups">Device Groups</label>
+            <select id="deviceGroups" autocomplete="off">
+                <option value="None">No Groups (default)</option>
+            </select>
+
+            <label for="deviceIP">Device IP <i title="An IP is required to remotely reprovision this device and/or manage it from CPM. This does not affect manual provisioning. For IP restrictions, see the 'Security' section." class="icmn-info"></i></label>
+            <input type="text" id="deviceIP" placeholder="Enter Device IP for Remote Mobility" value="" />
+
+        </div>
+
+    </fieldset>
+
+    <fieldset id="securityFieldset">
+        <legend>Device Security</legend>
+        <div class="form">
+            <label for="ipRestriction">
+                
+                Restrict Provisioning by IP Range
+            
+            <i class="icmn-info" title="Only allow the device to download its configuration files if the request is made in a certain IP range. Warning: Not recommended for dynamic local IPs"></i>
+        </label>
+            <input type="checkbox" id="ipRestriction" autocomplete="off" />
+
+            <label for="ipRestrictionRangeStart">Range Start</label>
+            <input disabled="true" type="text" id="ipRestrictionRangeStart" placeholder="Enter IP Starting Range (e.x 10.100.1.1)" value="" />
+
+            <label for="ipRestrictionRangeEnd">Range End</label>
+            <input disabled="true" type="text" id="ipRestrictionRangeEnd" placeholder="Enter IP Ending Range (e.x 10.100.1.10)" value="" />
+
+            <div class="margin"></div><div class="margin"></div>
+
+            <label for="enableDevice">
+                Enable Device <i class="icmn-info" title="Enable or disable the device. If disabled, the device will not be able to download its configuration files."></i>
+            </label>
+            <input type="checkbox" id="enableDevice" autocomplete="off" checked />
+        </div>
+        
+        
+
+    </fieldset>
+
+    <fieldset id="actionFieldset">
+        <legend>Configuration Actions</legend>
+
+        <button onclick="doSubmit(0);" class="cfa-s"><i class="icmn-floppy-disk"></i> Save Configuration</button>
+        <button class="cfa-s"><i class="icmn-cloud-check"></i> Save & Reprovision</button>
+        <div id="cbRP">
+            <label for="cb_remainOnPage">Remain on this page after configuration update: </label>
+            <input type="checkbox" id="cb_remainOnPage" />
+        </div>
+        
+    </fieldset>
+
+    <script src="/shared/js/jquery-3.7.0.min.js"></script>
+    <script src="/shared/js/master-addDevicePopup.js"></script>
+    <script src="/shared/js/toastify.min.js"></script>
+    <script src="/shared/js/toast-support.js"></script>
+    <script src="/shared/js/addDevicePopup-registrationImport.js"></script>
+    
+    <script src="/shared/js/jquery-migrate-3.4.1.min.js"></script>
+    <script src="/shared/js/datatables.min.js"></script>
+    <script src="/shared/js/dt-utils.js" defer></script>
+
+    <script defer>
+        $('#linekeyDisplay').DataTable({
+            "order": [[0, "asc"]],
+            "dom": "rtip",
+            "columnDefs": [
+                {"width": "40%", "targets": 2}
+            ]
+        });
+
+
+    </script>
+
+</body>
+
+</html>

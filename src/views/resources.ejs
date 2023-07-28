@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPM Dashboard - Resources (<%= username %>)</title>
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/shared/css/master-resources.css" />
+
+    <!--ALL IMPORT-->
+    <link rel="stylesheet" href="/shared/ico/icons.css" />
+    <link rel="stylesheet" href="/shared/css/badges.css" />
+    <link rel="stylesheet" href="/shared/css/datatables.min.css" />
+    <link rel="stylesheet" href="/shared/css/toastify.css" />
+    <link rel="stylesheet" href="/shared/css/normalize.css" />
+
+    <!--Define Safari/IOS Color Scheme-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+
+<body>
+
+
+    <!--Navigation Elements-->
+    <nav>
+        <span><%= username %>&ensp;<i class="icmn-user3"></i></span>
+
+        <span>Settings&ensp;<i class="icmn-cog"></i></span>
+
+        <span onclick="window.location = ('/logout');">Logout&ensp;<i class="icmn-exit3"></i></span>
+
+        <!--DO NOT REMOVE THIS (FIXES RIGHT PADDING ISSUE WITH FLEX)-->
+        <span>&nbsp;</span> 
+    </nav>
+
+    <%- include('partials/sidebar.ejs') %>
+
+    <%- include('partials/mobile-sidebar.ejs') %>
+
+    <div class="main" id="main">
+        <%- include('partials/logobar.ejs') %>
+        <!--End Navigation Elements-->
+
+        <div class="menuItem" id="menuItem">
+            <button onclick="window.location = ('/dashboard/addDevice?amod=new');"><i class="icmn-plus3"></i> New Resource Group</button>
+            <button onclick="location.reload()"><i class="icmn-loop3"></i> Refresh</button>
+        </div>
+        <div class="internal">
+            <h1>Static Resources</h1>
+            <p>Assign & Manage embedded static resources, such as Dialplans, Wallpapers, Ringtones, and Firmware Loads.</p>
+        
+            <div class="tabMenu">
+                <div class="tabContainer">
+                    <span class="item active"><i class="icmn-users4"></i> Global Resources</span>
+                    <span class="item">High Secure</span>
+
+                </div>
+                <div class="tabBody">
+                    <p><i class="icmn-info"></i> Resources created within this group will be available to all devices created within CPM, including devices that haven't been assigned a group.</p>
+                </div>
+            </div>
+
+        
+        </div>
+        
+    </div>
+    
+
+    <footer>
+        <span><i class='icmn-lock2'></i> v0.0.1 <span data-after-text="Online" data-after-type="green-pill"></span></span>
+    </footer>
+
+
+    <script src="/shared/js/toast-support.js"></script>
+
+    <script src="/shared/js/master-resources.js"></script>
+    <script src="/shared/js/toastify.min.js"></script>
+    <script src="/shared/js/responsiveAdjust.js"></script>
+    <script src="/shared/js/jquery-3.7.0.min.js"></script>
+    <script src="/shared/js/jquery-migrate-3.4.1.min.js"></script>
+    <script src="/shared/js/copier.js"></script>
+
+
+    <script src="/shared/js/datatables.min.js"></script>
+    <script src="/shared/js/dt-utils.js" defer></script>
+
+    <script src="/shared/js/clocksync.js" defer></script>
+</body>
+
+</html>

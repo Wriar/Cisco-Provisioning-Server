@@ -1,0 +1,113 @@
+@import "_variables.scss";
+@import "_colors.scss";
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+body {
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+
+    background-color: $BACKGROUND;
+    color-scheme: dark;
+}
+
+
+
+nav {
+    background-color: #292828;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    table {
+        width: 100%;
+        //if u line wrap u will die
+        table-layout: fixed;
+
+        .left {
+            text-align: left;
+        }
+
+        .right {
+            text-align: right;
+        }
+    }
+
+    span {
+        color: gainsboro;
+        font-style: italic;
+    }
+}
+
+button {
+    border-radius: 3px;
+    padding: 0.2rem;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+    border: 1px solid rgb(164, 164, 164);
+    margin-left: 0.1rem;
+
+    transition: all 0.1s ease-in-out;
+}
+
+button:hover {
+    //Background 25% darker
+    filter: brightness(80%);
+}
+
+.red {
+    background-color: $coral-600;
+}
+
+.green {
+    background-color: rgb(1, 171, 1);
+}
+
+#dash_exportSelection {
+    padding: 10px;
+
+    h1 {
+        margin: 0;
+        color: gainsboro;
+        font-weight: lighter;
+    }
+
+    p {
+        color: white;
+    }
+
+    .info {
+        border-left: 2px solid gainsboro;
+        padding-left: 10px;
+        color: whitesmoke;
+    }
+
+    h3 {
+        color: white;
+        font-weight: normal;
+    }
+
+    select {
+        width: 100%;
+    }
+
+    .submit {
+        margin-top: 1rem;
+        padding: 6px;
+    }
+
+    label {
+        color: gainsboro;
+    }
+}
+
+fieldset {
+    legend {
+        color: $azure-400;
+        font-weight: lighter;
+    }
+    //Border
+    border: 1px solid $azure-400;
+    border-radius: 5px;
+}

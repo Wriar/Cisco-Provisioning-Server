@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+     <!--ALL IMPORT-->
+     <link rel="stylesheet" href="/shared/ico/icons.css" />
+     <link rel="stylesheet" href="/shared/css/badges.css" />
+     <link rel="stylesheet" href="/shared/css/toastify.css" />
+     <link rel="stylesheet" href="/shared/css/normalize.css" />
+
+     <!--Action Styles-->
+     <link rel="stylesheet" href="/shared/css/actionPopup.css" />
+
+
+    <title>New Action</title>
+</head>
+<body>
+    <nav>
+        <table>
+            <tr>
+                <td class="left">
+                    <span id="actionText">Action Text</span>
+                </td>
+                <td class="right">
+                    <button class="green" style="display: none;">
+                        <i class="icmn-floppy-disk2"></i> Save
+                    </button>
+                    <button class="red" onclick="closeWindow();">
+                        <i class="icmn-cross"></i> Cancel
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </nav>
+
+    <!--END NAVIGATION, BEGIN VARIABLE ZONE-->
+
+    <div id="dash_exportSelection">
+        <fieldset>
+            <legend><i class="icmn-info"></i> Information </legend>
+
+            <p class="info">This utility will allow you to export the following selected devices in a raw format which can be easily imported into an existing CPM instance as a file. The export file will be downloaded to your PC.</p>
+        </fieldset>
+
+        <h3>Devices Included in Export (<span id="dash_exportSelection_count"></span>):</h3>
+        <p style="color: goldenrod;"><i class="icmn-warning"></i> Please verify that the following list is correct before export. Depending on the number of devices included, this may take some time.</p>
+        
+        <select id="dash_exportSelection_select" size="10">
+            No Items Are Selected.
+        </select>
+
+        <button class="green submit" onclick="dash_exportSelection_doExport();">
+            <i class="icmn-download8"></i> Complete Export
+        </button>
+    </div>
+</body>
+
+<script src="/shared/js/jquery-3.7.0.min.js"></script>
+<script src="/shared/js/jquery-migrate-3.4.1.min.js"></script>
+<script src="/shared/js/actionPopup.js"></script>
+
+</html>

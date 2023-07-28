@@ -1,0 +1,301 @@
+@import "_variables.scss";
+@import "_colors.scss";
+@import "_logobar.scss";
+@import "_sidebar.scss";
+@import "_mobile-sidebar.scss";
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+
+
+body {
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+
+    background-color: $BACKGROUND;
+    color-scheme: dark;
+}
+
+
+
+nav {
+    background-color: $DARKGRAY;
+    font-size: $NAV_FONT_SIZE;
+    padding: $NAV_TOP_PADDING 0 $NAV_TOP_PADDING 0;
+
+    gap: 1rem;
+
+    display: flex;
+    justify-content: flex-end;
+    position: fixed;
+    width: 100%;
+
+    //Login Gray Text
+    span {
+        color: $LIGHT_TEXT;
+        //Disable selecting
+        user-select: none;
+    }
+
+    span:hover {
+        color: rgb(181, 181, 181);
+    }
+
+}
+
+.logo img {
+    margin-top: ($NAV_FONT_SIZE * $PG_LINE_HEIGHT_MULTIPLIER + $NAV_TOP_PADDING * 2);
+}
+
+footer {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    background-color: $DARKGRAY;
+    color: $LIGHT_TEXT;
+    font-size: 0.8rem;
+    padding: 3px 10px 3px 10px;
+    text-align: center;
+
+    //Disable selecting
+    user-select: none;
+}
+
+
+
+
+.main {
+    margin-left: $SIDEBAR_WIDTH;
+}
+
+
+//Main Page Container
+.m-p {
+    padding: 10px;
+    color: gainsboro;
+}
+
+.flex-containers {
+    display: flex;
+    flex-wrap: wrap;
+    //Left to right
+    flex-direction: row;
+    gap: 1rem;
+
+    .block {
+        width: 100px;
+        background-color: blue;
+    }
+
+    .log-container {
+        min-width: 60vw;
+        height: calc(100vh - $NAV_FONT_SIZE * $PG_LINE_HEIGHT_MULTIPLIER - $NAV_TOP_PADDING * 2 - 240px);
+        background-color: rgb(62, 90, 106);
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 1rem;
+
+        h2 {
+            font-weight: normal;
+            margin-top: 0.5rem;
+            padding: 0px;
+        }
+
+        textarea {
+            background-color: $DARKGRAY;
+            padding: 3px;
+            font-size: 0.8rem;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            width: calc(100% - 13px);
+            resize: none;
+            //No Borders
+            border: 0px;
+            color: white;
+            text-align: left;
+            padding-left: 10px;
+
+            //Enable Vertical Scrolling
+            overflow-y: scroll;
+
+            height: calc(100% - 30px - 0.8rem * $PG_LINE_HEIGHT_MULTIPLIER * 2 - 40px);
+
+            //Enable horizontal scrolling
+            overflow-x: scroll;
+        }
+
+        button {
+            margin-top: 0.5rem;
+            height: 30px;
+
+            transition: all ease-in-out 0.1s;
+            border: 1px solid #5d879f;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            //Darken the color
+            filter: brightness(0.8);
+        }
+
+        button.red {
+            background-color: $DARKGRAY;
+            color: gainsboro;
+
+            i {
+                color: $coral-600;
+            }
+        }
+
+        button.yellow {
+            background-color: $DARKGRAY;
+            color: gainsboro;
+
+            i {
+                color: darkorange;
+            }
+        }
+
+        button.blue {
+            background-color: $DARKGRAY;
+            color: gainsboro;
+
+            i {
+                color: $azure-500;
+            }
+        }
+
+        .log-status {
+            font-style: italic;
+            font-size: 0.7rem;
+        }
+    }
+
+    .dashboard-box {
+        width: 250px;
+        height: 100px;
+        border-radius: 5px;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+        
+        padding: 10px;
+
+        $h1_size: 50px;
+
+        h1 {
+            font-size: $h1_size;
+            margin: 0px;
+            color: white;
+            font-weight: normal;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-top: 15px;
+            font-weight: normal;
+            font-style: italic;
+            color: hsl(202, 26%, 90%);
+
+            //Disable Selecting Text
+            user-select: none;
+        }
+
+       
+    }
+
+    
+    .dashboard-box.totalDevices {
+        background-color: rgb(62, 90, 106);
+        background-image: url("/shared/ico/ui/connection-fg.svg");
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        //Background padding from corners
+        padding: 10px 10px 10px 10px;
+    }
+
+    .dashboard-box.createdDevices {
+        background-color: rgb(62, 90, 106);
+        background-image: url("/shared/ico/ui/devices-fg.svg");
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        //Background padding from corners
+        padding: 10px 10px 10px 10px;
+    }
+
+    .dashboard-box.provisioningRequests {
+        background-color: rgb(62, 90, 106);
+        background-image: url("/shared/ico/ui/provisioning-fg.svg");
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        //Background padding from corners
+        padding: 10px 10px 10px 10px;
+    }
+
+    .dashboard-box.errors {
+        background-color: rgb(62, 90, 106);
+        background-image: url("/shared/ico/ui/proverr-fg.svg");
+        background-position: right bottom;
+        background-repeat: no-repeat;
+
+        //Set background image width
+        background-size: 90px 90px;
+
+        //Background padding from corners
+        padding: 10px 10px 10px 10px;
+        
+    }
+
+    //WARN: DEPRECATED DO NOT USE
+    //Target dashboard-box which also has a class of green
+    .dashboard-box.green {
+        background: linear-gradient(45deg, #00b09b, #96c93d);
+    }
+
+    .dashboard-box.blue {
+        //Blue gradient background
+        background: #3e5a6a;
+    }
+
+    .dashboard-box.red {
+        //Red gradient background
+        background: linear-gradient(45deg, #f83600, #f9d423);
+    }
+
+    .dashboard-box.selectable {
+        cursor: pointer;
+        transition: all ease-in-out 0.2s;
+    }
+
+    .dashboard-box.selectable:hover {
+        background-color: rgb(85, 120, 140);
+    }
+
+  
+}
+
+h1.loading::after {
+    content: "KYSRN";
+    border-radius: 30%;
+    color:rgb(62, 90, 106);
+    width: 100%;
+    height: 75%;
+    filter: blur(20px);
+    animation: wipe-colors 1s ease-in-out infinite;
+  }
+  
+  @keyframes wipe-colors {
+    0% {
+      background-color: rgb(62, 90, 106);
+      left: -100%;
+    }
+    50% {
+      background-color: rgb(77, 108, 127);
+      left: 0;
+    }
+    100% {
+      background-color: rgb(62, 90, 106);
+      left: 100%;
+    }
+  }

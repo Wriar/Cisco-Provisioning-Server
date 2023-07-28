@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+     <!--ALL IMPORT-->
+     <link rel="stylesheet" href="/shared/ico/icons.css" />
+     <link rel="stylesheet" href="/shared/css/badges.css" />
+     <link rel="stylesheet" href="/shared/css/toastify.css" />
+     <link rel="stylesheet" href="/shared/css/normalize.css" />
+
+     <!--Action Styles-->
+     <link rel="stylesheet" href="/shared/css/actionPopup.css" />
+
+     <style>
+        .wait {
+            border-style: 1px solid orange !important;
+        }
+
+        .done {
+            border-style: 1px solid mediumseagreen !important;
+        }
+     </style>
+
+
+    <title>Remote Provision</title>
+</head>
+<body>
+    <nav>
+        <table>
+            <tr>
+                <td class="left">
+                    <span id="actionText">Remote Provision Utility</span>
+                </td>
+                <td class="right">
+                    <button class="green" style="display: none;">
+                        <i class="icmn-floppy-disk2"></i> Save
+                    </button>
+                    <button class="red" onclick="closeWindow();">
+                        <i class="icmn-cross"></i> Cancel
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </nav>
+
+    <!--END NAVIGATION, BEGIN VARIABLE ZONE-->
+
+    <div id="dash_exportSelection">
+        <fieldset id="fs">
+            <legend id="fsLegend"><i class="icmn-info"></i> Information </legend>
+
+            <p id="utilInfo" class="info">This utility will allow you to remotely reprovision Cisco devices to accept a new modified configuration file. <b>Note: Devices MUST already have an existing onboarded configuration file to remotely reprovision.</b></p>
+        </fieldset>
+
+        <h3 id="headText">Devices Included in Reprovision (<span id="rpCount"></span>):</h3>
+        <div id="xtra">
+            <p id="warnText" style="color: goldenrod;"><i class="icmn-warning"></i> Please verify that the following list is correct before reprovisioning devices. Depending on the number of devices included, this may take several minutes.</p>
+        
+            <select id="dash_exportSelection_select" size="10">
+                No Items Are Selected.
+            </select>
+
+            <button class="green submit" onclick="reprovision();">
+                <i class="icmn-database-refresh"></i> Begin Reprovison
+            </button>
+        </div>
+        
+    </div>
+</body>
+
+<script src="/shared/js/rmtProvision.js"></script>
+<script src="/shared/js/jquery-3.7.0.min.js"></script>
+<script src="/shared/js/jquery-migrate-3.4.1.min.js"></script>
+
+</html>
