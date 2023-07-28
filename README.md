@@ -3,7 +3,7 @@
 
 
 <div style="text-align: center;">
-<img src="cover.png" alt="CPM Dashboard" style="max-height: 300px; text-align: center;">
+<img src="image1.png" alt="CPM Dashboard" style="max-height: 300px; text-align: center;">
 </div>
 <h3 style="text-align: center">Overview</h3>
 <p style="text-align: center;">
