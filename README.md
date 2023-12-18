@@ -1,5 +1,6 @@
 <h1 align="center" style="text-align: center;">Cisco Provisioning Manager 0.0.1a</h1>
-<p align="center" style="text-align: center;">A lightweight Node.JS management provisioning server + Webadmin Panel for Cisco Device Configurations</p>
+<p align="center" style="text-align: center;">A lightweight Node.JS management provisioning server + Webadmin Panel for Cisco Device Configurations. <br/>
+  Intended for Cisco Devices with <b>Enterprise Firmware</b> running the <a href="https://github.com/usecallmanagernz/patches">UseCallManager</a> patch.</p>
 
 
 <div style="text-align: center;">
@@ -30,7 +31,7 @@ Cisco Provisioning Manager (CPM) is a cutting-edge open-source solution designed
 1. **Configure Environment:** Set up your `.env` file and generate a secure session key as well as a purge secret. 
 
 2. **Install NPM Modules**: Run ``npm install``.
-3. **Start Server:** Run ``node server.js`` for production environemnts. For development environemnts, run ``npm run a`` and ``npm run b`` to run ``nodemon`` and ``sass`` parser concurrently.
+4. **Start Server:** Run ``node server.js`` for production environemnts. For development environemnts, run ``npm run a`` and ``npm run b`` to run ``nodemon`` and ``sass`` parser concurrently.
 
 2. **Log In:** Navigate to `localhost:6970/login` and user the default credentials ``admin``, ``admin``.
 
