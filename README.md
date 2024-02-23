@@ -31,7 +31,7 @@ Cisco Provisioning Manager (CPM) is a cutting-edge open-source solution designed
 1. **Configure Environment:** Set up your `.env` file and generate a secure session key as well as a purge secret. 
 
 2. **Install NPM Modules**: Run ``npm install``.
-4. **Start Server:** Run ``node server.js`` for production environemnts. For development environemnts, run ``npm run a`` and ``npm run b`` to run ``nodemon`` and ``sass`` parser concurrently.
+4. **Start Server:** Run ``node src/server.js`` for production environments. For development environments, run ``npm run a`` and ``npm run b`` to run ``nodemon`` and ``sass`` parser concurrently.
 
 2. **Log In:** Navigate to `localhost:6970/login` and user the default credentials ``admin``, ``admin``.
 
