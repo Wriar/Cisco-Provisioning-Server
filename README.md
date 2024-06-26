@@ -11,7 +11,9 @@
 Cisco Provisioning Manager (CPM) is a cutting-edge open-source solution designed to revolutionize the management and remote control of multiple Cisco Phones from a single workstation. It offers a highly efficient HTTP provisioning system for Cisco endpoints, making it easier than ever to handle device configurations.
 </p>
 
-
+> [!TIP]
+> If you are encountering an error with ``bcrypt`` when starting the application, the error is NOT a problem with this repo's code. Please cleanly reinstall bCrypt before trying again.
+> 
 ## Features
 - **Built-In HTTP Server:** Enjoy a seamless plug-and-play replacement for traditional slow TFTP software (TFTPd, etc), streamlining your provisioning process.
 
