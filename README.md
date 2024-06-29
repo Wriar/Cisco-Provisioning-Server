@@ -58,7 +58,7 @@ Note that the following features are work-in-progress and may be unavailable:
 We welcome contributions from the community to make CPM even better. If you'd like to contribute, feel free to fork this repository and add new commits.
 
 ## License
-CPM is open-source and available under the **MIT LICENSE** specified under the LICENSE.MD file.
+CPM is open-source and available under the **MIT LICENSE** specified under the LICENSE.MD file. If packages licensed under the GNU GPL license is used, such use constitutes a modification by the "END USER". The inclusion of GNU GPL software is not included in this software or releases; an instruction (pointer) to such use is specified in ``package.json`` (no modified source code from GNU GPL licenses are included). If distribution with compiled GNU GPL packages in source code/binaries are completed by the "END USER", the modified source code by the "END USER" must relicensed in a seperate codebase under GNU GPL. The developer of this application is not associated nor responsible for such distributions; such distributions have no association with the codebase in the current repository.
 
 ---
 
