@@ -13,7 +13,10 @@ Cisco Provisioning Manager (CPM) is a cutting-edge open-source solution designed
 
 > [!TIP]
 > If you are encountering an error with ``bcrypt`` when starting the application, the error is NOT a problem with this repo's code. Please cleanly reinstall bCrypt before trying again.
-> 
+>
+> ## Need Help?
+> [![Setup CPM](https://img.youtube.com/vi/D-zxuBtkk30/0.jpg)](https://www.youtube.com/watch?v=D-zxuBtkk30)
+
 ## Features
 - **Built-In HTTP Server:** Enjoy a seamless plug-and-play replacement for traditional slow TFTP software (TFTPd, etc), streamlining your provisioning process.
 
