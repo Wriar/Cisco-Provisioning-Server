@@ -16,6 +16,8 @@ Cisco Provisioning Manager (CPM) is a cutting-edge open-source solution designed
 >
 > ## Need Help?
 > [![Setup CPM](https://img.youtube.com/vi/D-zxuBtkk30/0.jpg)](https://www.youtube.com/watch?v=D-zxuBtkk30)
+>
+> ## [Create a Free Support Ticket](https://ticketcloud.wriar.org/index.php)
 
 ## Features
 - **Built-In HTTP Server:** Enjoy a seamless plug-and-play replacement for traditional slow TFTP software (TFTPd, etc), streamlining your provisioning process.
