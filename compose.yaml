@@ -1,0 +1,20 @@
+services:
+  cisco-provisioning-manager:
+    build: .
+    image: ghcr.io/legop3/cisco-provisioning-server:main
+    container_name: cisco-provisioning-manager
+    ports:
+      - "6970:6970"
+    environment:
+      NODE_ENV: production
+      DATA_FILE: /app/src/data/data.json
+      IS_DEBUG: "false"
+      SESSION_SECRET: change-this-session-secret
+      PURGE_SECRET: change-this-purge-secret
+      SHARED_DEVICE_SECRET: change-this-device-secret
+    volumes:
+      - cpm_data:/app/src/data
+    restart: unless-stopped
+
+volumes:
+  cpm_data:
