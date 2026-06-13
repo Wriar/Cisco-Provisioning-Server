@@ -20,6 +20,56 @@ const { response } = require('express');
 const fs = require('fs');
 const path = require('path');
 
+const defaultPhoneSettings = {
+    defaultWallpaperFile: "",
+    minimumRingVolume: "",
+    displayOnTime: "08:00",
+    displayOnDuration: "10:00",
+    displayIdleTimeout: "00:10",
+    displayOnWhenIncomingCall: "1",
+    backlightOnTime: "08:00",
+    backlightOnDuration: "10:00",
+    backlightIdleTimeout: "00:10",
+    backlightOnWhenIncomingCall: "1",
+    webAccess: "0",
+    webAdmin: "1",
+    webProtocol: "0",
+    sshAccess: "0",
+    adminPassword: "",
+    settingsAccess: "1",
+    pcPort: "0",
+    spanToPCPort: "1",
+    bluetooth: "1",
+    bluetoothProfile: "0,1",
+    wifi: "1",
+    usb1: "1",
+    usb2: "1",
+    usbClasses: "0,1,2",
+    ehookEnable: "0",
+    g722CodecSupport: "1",
+    handsetWidebandEnable: "2",
+    headsetWidebandEnable: "2",
+    handsetWidebandUIControl: "1",
+    headsetWidebandUIControl: "1",
+    enableGroupListen: "true",
+    separateMute: "0",
+    recentsSoftKey: "1",
+    autoSelectLineEnable: "1",
+    autoCallSelect: "1",
+    incomingCallToastTimer: "10",
+    showCallHistoryForSelectedLine: "0",
+    lineMode: "0",
+    allCallsOnPrimary: "0",
+    softKeyControl: "1"
+};
+
+function normalizePhoneSettings(settings = {}) {
+    return {
+        ...defaultPhoneSettings,
+        ...settings
+    };
+}
+
 async function validateProvisioningXml(xml) {
     if (!xml || typeof xml !== "string" || xml.trim() === "") {
         return { valid: false, message: "XML override is empty." };
@@ -87,6 +137,7 @@ module.exports = function(app) {
 
         console.log("Device Model: " + json.cust.deviceModel);
         console.log("Mapped Device Model from number: " + phoneModelMap[json.cust.deviceModel]);
+        const phoneSettings = normalizePhoneSettings(json.phoneSettings);
         if (deviceExists) {
 
             //Replace the device in the cache's attributes
@@ -100,6 +151,7 @@ module.exports = function(app) {
             cache.devices[deviceIndex].enabled = json.security.enableDevice;
             cache.devices[deviceIndex].security.ipRestricted = json.security.ipRestriction;
             cache.devices[deviceIndex].security.ipWhitelist = [json.security.ipRestrictionRangeStart, json.security.ipRestrictionRangeEnd];
+            cache.devices[deviceIndex].phoneSettings = phoneSettings;
             cache.devices[deviceIndex].advancedXmlOverrideEnabled = json.advanced?.xmlOverrideEnabled === true;
             cache.devices[deviceIndex].createdAt = new Date();
         } else {
@@ -132,6 +184,7 @@ module.exports = function(app) {
                     ipRestricted: json.security.ipRestriction,
                     ipWhitelist: [json.security.ipRestrictionRangeStart, json.security.ipRestrictionRangeEnd]
                 },
+                phoneSettings,
                 advancedXmlOverrideEnabled: json.advanced?.xmlOverrideEnabled === true,
             });
         }
@@ -211,6 +264,7 @@ module.exports = function(app) {
             "disableSpeaker": json.cpa.disableSpeakerphone,
             "disableSpeakerAndHeadset": json.cpa.disableSpeakerphoneAndHeadset,
             "enableMuteFeature": json.cpa.enableMuteFeature,
+            ...phoneSettings,
         }
 
         //Begin building the XML by looping through each line key

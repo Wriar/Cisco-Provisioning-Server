@@ -1,4 +1,62 @@
 const lineKeyCount = 6;
+const phoneSettingIds = [
+    "defaultWallpaperFile",
+    "minimumRingVolume",
+    "displayOnTime",
+    "displayOnDuration",
+    "displayIdleTimeout",
+    "displayOnWhenIncomingCall",
+    "backlightOnTime",
+    "backlightOnDuration",
+    "backlightIdleTimeout",
+    "backlightOnWhenIncomingCall",
+    "webAccess",
+    "webAdmin",
+    "webProtocol",
+    "sshAccess",
+    "adminPassword",
+    "settingsAccess",
+    "pcPort",
+    "spanToPCPort",
+    "bluetooth",
+    "bluetoothProfile",
+    "wifi",
+    "usb1",
+    "usb2",
+    "usbClasses",
+    "ehookEnable",
+    "g722CodecSupport",
+    "handsetWidebandEnable",
+    "headsetWidebandEnable",
+    "handsetWidebandUIControl",
+    "headsetWidebandUIControl",
+    "enableGroupListen",
+    "separateMute",
+    "recentsSoftKey",
+    "autoSelectLineEnable",
+    "autoCallSelect",
+    "incomingCallToastTimer",
+    "showCallHistoryForSelectedLine",
+    "lineMode",
+    "allCallsOnPrimary",
+    "softKeyControl"
+];
+
+function collectPhoneSettings() {
+    const settings = {};
+    phoneSettingIds.forEach((id) => {
+        settings[id] = document.getElementById(id).value;
+    });
+    return settings;
+}
+
+function setPhoneSettings(settings = {}) {
+    phoneSettingIds.forEach((id) => {
+        if (settings[id] !== undefined && settings[id] !== null) {
+            document.getElementById(id).value = settings[id].toString();
+        }
+    });
+}
 
 function handleUUIDGenCBState(cb) {
     if (cb.checked) {
@@ -79,6 +137,7 @@ function doSubmit(after) {
     const enableDevice = document.getElementById("enableDevice").checked;
     const xmlOverrideEnabled = document.getElementById("xmlOverrideEnabled").checked;
     const xmlOverride = document.getElementById("xmlOverride").value;
+    const phoneSettings = collectPhoneSettings();
 
     /**
      * Retrieve Line Key Values
@@ -312,6 +371,7 @@ function doSubmit(after) {
             enableDevice: enableDevice,
         },
         "lineKeys": lineKeyJSONConstruction,
+        "phoneSettings": phoneSettings,
         "advanced": {
             xmlOverrideEnabled: xmlOverrideEnabled,
             xmlOverride: xmlOverride
@@ -410,6 +470,7 @@ let pState = null;
 function showAllFieldsets() {
     document.getElementById('lineKeyFieldset').style.opacity = "100";
     document.getElementById('cpaFieldset').style.display = "block";
+    document.getElementById('phoneSettingsFieldset').style.display = "block";
     document.getElementById('propFielset').style.display = "block";
     document.getElementById('securityFieldset').style.display = "block";
     document.getElementById('advancedXmlFieldset').style.display = "block";
@@ -420,6 +481,7 @@ function showAllFieldsets() {
 function hideAllFieldsets() {
     document.getElementById('lineKeyFieldset').style.opacity = "0";
     document.getElementById('cpaFieldset').style.display = "none";
+    document.getElementById('phoneSettingsFieldset').style.display = "none";
     document.getElementById('propFielset').style.display = "none";
     document.getElementById('securityFieldset').style.display = "none";
     document.getElementById('advancedXmlFieldset').style.display = "none";
@@ -528,6 +590,13 @@ function parseResponseDoc(responseJSONObject, quiet = false) {
     const disableSpeaker = responseJSONObject.device.vendorConfig[0].disableSpeaker[0];
     const disableSpeakerAndHeadset = responseJSONObject.device.vendorConfig[0].disableSpeakerAndHeadset[0];
     const enableMuteFeature = responseJSONObject.device.vendorConfig[0].enableMuteFeature[0];
+    const vendorConfig = responseJSONObject.device.vendorConfig[0];
+    const phoneSettings = {};
+    phoneSettingIds.forEach((id) => {
+        if (vendorConfig[id] && vendorConfig[id][0] !== undefined) {
+            phoneSettings[id] = vendorConfig[id][0];
+        }
+    });
 
     //console.log(JSON.stringify(sipLines));
 
@@ -544,6 +613,7 @@ function parseResponseDoc(responseJSONObject, quiet = false) {
         disableSpeaker,
         disableSpeakerAndHeadset,
         enableMuteFeature,
+        phoneSettings,
       };
     } catch (e) {
         console.error(e);
@@ -572,6 +642,7 @@ function reimportDeviceOverrideOnly(deviceConfigData) {
     document.getElementById('deviceMAC').value = deviceConfigData.mac;
     document.getElementById('deviceIP').value = deviceConfigData.ip;
     document.getElementById('deviceGroups').value = deviceConfigData.groups;
+    setPhoneSettings(deviceConfigData.phoneSettings);
     document.getElementById('xmlOverrideEnabled').checked = true;
     document.getElementById('xmlOverride').value = lastLoadedRawProvision;
     setXmlOverrideStatus("This device is using a full XML override. Structured fields could not be inferred from the custom XML.");
@@ -619,6 +690,7 @@ function reimportDevice(deviceDataMap, deviceConfigData) {
     const disableSpeaker = deviceDataMap.disableSpeaker;
     const disableSpeakerAndHeadset = deviceDataMap.disableSpeakerAndHeadset;
     const enableMuteFeature = deviceDataMap.enableMuteFeature;
+    const phoneSettings = deviceDataMap.phoneSettings;
     const deviceIP = deviceConfigData.ip;
     const advancedXmlOverrideEnabled = deviceConfigData.advancedXmlOverrideEnabled === true;
 
@@ -639,6 +711,7 @@ function reimportDevice(deviceDataMap, deviceConfigData) {
     document.getElementById('disableSpeakerphone').value = disableSpeaker.toString();
     document.getElementById('disableSpeakerphoneAndHeadset').value = disableSpeakerAndHeadset.toString();
     document.getElementById('enableMuteFeature').value = enableMuteFeature.toString();
+    setPhoneSettings(phoneSettings);
 
     document.getElementById('deviceIP').value = deviceIP;
     document.getElementById('xmlOverrideEnabled').checked = advancedXmlOverrideEnabled;

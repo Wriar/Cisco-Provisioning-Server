@@ -113,73 +113,73 @@
     <callLogBlfEnabled>2</callLogBlfEnabled>
   </commonProfile>
   <vendorConfig>
-    <defaultWallpaperFile></defaultWallpaperFile>
+    <defaultWallpaperFile><!--defaultWallpaperFile--></defaultWallpaperFile>
     <disableSpeaker><!--disableSpeaker--></disableSpeaker>
     <disableSpeakerAndHeadset><!--disableSpeakerAndHeadset--></disableSpeakerAndHeadset>
     <enableMuteFeature><!--enableMuteFeature--></enableMuteFeature>
-    <enableGroupListen>true</enableGroupListen>
+    <enableGroupListen><!--enableGroupListen--></enableGroupListen>
     <holdResumeKey>1</holdResumeKey>
-    <recentsSoftKey>1</recentsSoftKey>
+    <recentsSoftKey><!--recentsSoftKey--></recentsSoftKey>
     <dfBit>1</dfBit>
-    <pcPort>0</pcPort>
-    <spanToPCPort>1</spanToPCPort>
+    <pcPort><!--pcPort--></pcPort>
+    <spanToPCPort><!--spanToPCPort--></spanToPCPort>
     <garp>0</garp>
     <rtcp>1</rtcp>
     <videoRtcp>1</videoRtcp>
     <voiceVlanAccess>0</voiceVlanAccess>
     <videoCapability>1</videoCapability>
     <hideVideoByDefault>0</hideVideoByDefault>
-    <separateMute>0</separateMute>
+    <separateMute><!--separateMute--></separateMute>
     <ciscoCamera>1</ciscoCamera>
-    <usb1>1</usb1>
-    <usb2>1</usb2>
-    <usbClasses>0,1,2</usbClasses>
+    <usb1><!--usb1--></usb1>
+    <usb2><!--usb2--></usb2>
+    <usbClasses><!--usbClasses--></usbClasses>
     <sdio>1</sdio>
-    <wifi>1</wifi>
-    <bluetooth>1</bluetooth>
-    <bluetoothProfile>0,1</bluetoothProfile>
+    <wifi><!--wifi--></wifi>
+    <bluetooth><!--bluetooth--></bluetooth>
+    <bluetoothProfile><!--bluetoothProfile--></bluetoothProfile>
     <btpbap>0</btpbap>
     <bthfu>0</bthfu>
-    <ehookEnable>0</ehookEnable>
-    <autoSelectLineEnable>1</autoSelectLineEnable>
-    <autoCallSelect>1</autoCallSelect>
-    <incomingCallToastTimer>10</incomingCallToastTimer>
+    <ehookEnable><!--ehookEnable--></ehookEnable>
+    <autoSelectLineEnable><!--autoSelectLineEnable--></autoSelectLineEnable>
+    <autoCallSelect><!--autoCallSelect--></autoCallSelect>
+    <incomingCallToastTimer><!--incomingCallToastTimer--></incomingCallToastTimer>
     <dialToneFromReleaseKey>0</dialToneFromReleaseKey>
     <joinAndDirectTransferPolicy>0</joinAndDirectTransferPolicy>
-    <minimumRingVolume></minimumRingVolume>
+    <minimumRingVolume><!--minimumRingVolume--></minimumRingVolume>
     <simplifiedNewCall>0</simplifiedNewCall>
     <actionableAlert>0</actionableAlert>
-    <showCallHistoryForSelectedLine>0</showCallHistoryForSelectedLine>
+    <showCallHistoryForSelectedLine><!--showCallHistoryForSelectedLine--></showCallHistoryForSelectedLine>
     <kemOneColumn>0</kemOneColumn>
-    <lineMode>0</lineMode>
+    <lineMode><!--lineMode--></lineMode>
     <lowerYourVoiceAlert>0</lowerYourVoiceAlert>
     <markCallAsSpam>1</markCallAsSpam>
     <callParkMonitor>1</callParkMonitor>
-    <allCallsOnPrimary>0</allCallsOnPrimary>
-    <softKeyControl>1</softKeyControl>
-    <settingsAccess>1</settingsAccess>
-    <webProtocol>0</webProtocol>
-    <webAccess>0</webAccess>
-    <webAdmin>1</webAdmin>
-    <adminPassword></adminPassword>
-    <sshAccess>0</sshAccess>
+    <allCallsOnPrimary><!--allCallsOnPrimary--></allCallsOnPrimary>
+    <softKeyControl><!--softKeyControl--></softKeyControl>
+    <settingsAccess><!--settingsAccess--></settingsAccess>
+    <webProtocol><!--webProtocol--></webProtocol>
+    <webAccess><!--webAccess--></webAccess>
+    <webAdmin><!--webAdmin--></webAdmin>
+    <adminPassword><!--adminPassword--></adminPassword>
+    <sshAccess><!--sshAccess--></sshAccess>
     <detectCMConnectionFailure>0</detectCMConnectionFailure>
-    <g722CodecSupport>1</g722CodecSupport>
-    <handsetWidebandEnable>2</handsetWidebandEnable>
-    <headsetWidebandEnable>2</headsetWidebandEnable>
-    <headsetWidebandUIControl>1</headsetWidebandUIControl>
-    <handsetWidebandUIControl>1</handsetWidebandUIControl>
+    <g722CodecSupport><!--g722CodecSupport--></g722CodecSupport>
+    <handsetWidebandEnable><!--handsetWidebandEnable--></handsetWidebandEnable>
+    <headsetWidebandEnable><!--headsetWidebandEnable--></headsetWidebandEnable>
+    <headsetWidebandUIControl><!--headsetWidebandUIControl--></headsetWidebandUIControl>
+    <handsetWidebandUIControl><!--handsetWidebandUIControl--></handsetWidebandUIControl>
     <daysDisplayNotActive>1,7</daysDisplayNotActive>
-    <displayOnTime>08:00</displayOnTime>
-    <displayOnDuration>10:00</displayOnDuration>
-    <displayIdleTimeout>00:10</displayIdleTimeout>
-    <displayOnWhenIncomingCall>1</displayOnWhenIncomingCall>
+    <displayOnTime><!--displayOnTime--></displayOnTime>
+    <displayOnDuration><!--displayOnDuration--></displayOnDuration>
+    <displayIdleTimeout><!--displayIdleTimeout--></displayIdleTimeout>
+    <displayOnWhenIncomingCall><!--displayOnWhenIncomingCall--></displayOnWhenIncomingCall>
     <displayRefreshRate>0</displayRefreshRate>
     <daysBacklightNotActive>1,7</daysBacklightNotActive>
-    <backlightOnTime>08:00</backlightOnTime>
-    <backlightOnDuration>10:00</backlightOnDuration>
-    <backlightIdleTimeout>00:10</backlightIdleTimeout>
-    <backlightOnWhenIncomingCall>1</backlightOnWhenIncomingCall>
+    <backlightOnTime><!--backlightOnTime--></backlightOnTime>
+    <backlightOnDuration><!--backlightOnDuration--></backlightOnDuration>
+    <backlightIdleTimeout><!--backlightIdleTimeout--></backlightIdleTimeout>
+    <backlightOnWhenIncomingCall><!--backlightOnWhenIncomingCall--></backlightOnWhenIncomingCall>
     <recordingTone>0</recordingTone>
     <recordingToneLocalVolume>100</recordingToneLocalVolume>
     <recordingToneRemoteVolume>50</recordingToneRemoteVolume>
