@@ -8,6 +8,9 @@ ENV NODE_ENV=production \
     PORT=6970
 
 COPY package*.json ./
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
 RUN npm ci --omit=dev && npm cache clean --force
 
 COPY . .

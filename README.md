@@ -1,4 +1,5 @@
 <h1 align="center" style="text-align: center;">Cisco Provisioning Manager 0.0.1a</h1>
+<h1 align="center" style="text-align: center;">THIS REPO HAS BEEN SLOP CLOBBERED BY CODEX TO ADD MORE FEATURES FOR THE 8851 PHONE AND I AM NOT RESPONSIBLE IF IT HAS BEEN MADE WORSE</h1>
 <p align="center" style="text-align: center;">A lightweight Node.JS management provisioning server + Webadmin Panel for Cisco Device Configurations. <br/>
   Intended for Cisco Devices with <b>Enterprise Firmware</b> running the <a href="https://github.com/usecallmanagernz/patches">UseCallManager</a> patch.</p>
 

@@ -45,6 +45,7 @@
 
         <div class="menuItem" id="menuItem">
             <button onclick="document.getElementById('wallpaperImage').click();"><i class="icmn-plus3"></i> Add Wallpaper</button>
+            <button onclick="document.getElementById('ringtoneFile').click();"><i class="icmn-music"></i> Add Ringtone</button>
             <button onclick="location.reload()"><i class="icmn-loop3"></i> Refresh</button>
         </div>
         <div class="internal">
@@ -89,6 +90,38 @@
 
                         <div id="wallpaperStatus" class="resourceStatus"></div>
                         <div id="wallpaperGrid" class="wallpaperGrid"></div>
+                    </section>
+
+                    <section class="resourceSection">
+                        <div class="sectionHeader">
+                            <div>
+                                <h2>Ringtones</h2>
+                                <p>Upload Cisco .rwb/.raw files directly, or upload common audio and CPM will convert it. Cisco 8800 series phones use wideband .rwb files listed in Ringlist-wb.xml.</p>
+                            </div>
+                            <div class="sectionLinks">
+                                <a href="/Ringlist-wb.xml" target="_blank">Open Ringlist-wb.xml</a>
+                                <a href="/Ringlist.xml" target="_blank">Open Ringlist.xml</a>
+                            </div>
+                        </div>
+
+                        <form id="ringtoneForm" class="resourceForm ringtoneForm">
+                            <label for="ringtoneName">Display Name</label>
+                            <input id="ringtoneName" name="name" type="text" maxlength="25" placeholder="Lobby Ring" required>
+
+                            <label for="ringtoneType">Phone Family</label>
+                            <select id="ringtoneType" name="type">
+                                <option value="wideband">8800 Series Wideband (.rwb)</option>
+                                <option value="narrowband">Classic Narrowband (.raw)</option>
+                            </select>
+
+                            <label for="ringtoneFile">Ringtone File</label>
+                            <input id="ringtoneFile" name="ringtone" type="file" accept=".rwb,.raw,.aac,.flac,.m4a,.mp3,.oga,.ogg,.opus,.wav,.webm,audio/*" required>
+
+                            <button type="submit"><i class="icmn-upload3"></i> Upload Ringtone</button>
+                        </form>
+
+                        <div id="ringtoneStatus" class="resourceStatus"></div>
+                        <div id="ringtoneGrid" class="resourceGrid"></div>
                     </section>
                 </div>
             </div>

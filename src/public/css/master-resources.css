@@ -223,6 +223,13 @@ footer {
   white-space: nowrap;
 }
 
+.sectionLinks {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .resourceForm {
   display: grid;
   grid-template-columns: repeat(4, minmax(140px, 1fr)) auto;
@@ -261,42 +268,40 @@ footer {
   color: #ff7c7c;
 }
 
-.wallpaperGrid {
+.ringtoneForm {
+  grid-template-columns: minmax(140px, 1fr) minmax(180px, 1fr) minmax(180px, 1fr) auto;
+}
+
+.wallpaperGrid,
+.resourceGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 1rem;
 }
 
-.wallpaperCard {
+.resourceCard {
   background-color: rgb(62, 90, 106);
   border-radius: 5px;
   padding: 0.75rem;
 }
-.wallpaperCard img {
-  width: 100%;
-  aspect-ratio: 800/480;
-  object-fit: cover;
-  background-color: rgb(41, 40, 40);
-  border-radius: 3px;
-}
-.wallpaperCard h3 {
+.resourceCard h3 {
   margin: 0.5rem 0 0.25rem 0;
   color: white;
   font-size: 1rem;
   font-weight: normal;
 }
-.wallpaperCard p {
+.resourceCard p {
   margin: 0;
   color: gainsboro;
   font-size: 0.85rem;
 }
-.wallpaperCard .actions {
+.resourceCard .actions {
   display: flex;
   gap: 0.5rem;
   margin-top: 0.75rem;
 }
-.wallpaperCard a,
-.wallpaperCard button {
+.resourceCard a,
+.resourceCard button {
   flex: 1;
   border: 0;
   border-radius: 5px;
@@ -307,18 +312,41 @@ footer {
   padding: 0.45rem;
   cursor: pointer;
 }
-.wallpaperCard button {
+.resourceCard button {
   color: #ffb5b5;
+}
+
+.wallpaperCard img {
+  width: 100%;
+  aspect-ratio: 800/480;
+  object-fit: cover;
+  background-color: rgb(41, 40, 40);
+  border-radius: 3px;
+}
+
+.resourceIcon {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 800/480;
+  background-color: rgb(41, 40, 40);
+  border-radius: 3px;
+  color: #d9edf7;
+  font-size: 2.6rem;
 }
 
 @media (max-width: 900px) {
   .sectionHeader {
     flex-direction: column;
   }
-  .resourceForm {
+  .sectionLinks {
+    justify-content: flex-start;
+  }
+  .resourceForm,
+  .ringtoneForm {
     grid-template-columns: 1fr;
   }
-  .resourceForm label {
+  .resourceForm label,
+  .ringtoneForm label {
     display: block;
     color: gainsboro;
     margin-top: 0.4rem;
