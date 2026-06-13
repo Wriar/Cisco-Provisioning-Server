@@ -15,27 +15,41 @@ const phoneModelMap = {
 const {xmlBuild, builder, convert} = require('xmlbuilder2');
 const createLog = require("../../server/logger");
 
-const { parseString } = require('xml2js'); // Built-in module for XML parsing
+const { parseString, Parser } = require('xml2js'); // Built-in module for XML parsing
 const { response } = require('express');
 const fs = require('fs');
+const path = require('path');
 
-function isXMLString(str) {
-  // Attempt to parse the XML string
-  try {
-    parseString(str, (err, result) => {
-      if (err) {
-        throw err;
-      }
-      // The XML string is valid
-      return true;
-    });
-  } catch (error) {
-    // The XML string is invalid
-    return false;
-  }
+async function validateProvisioningXml(xml) {
+    if (!xml || typeof xml !== "string" || xml.trim() === "") {
+        return { valid: false, message: "XML override is empty." };
+    }
+
+    const parser = new Parser();
+    try {
+        const parsed = await parser.parseStringPromise(xml);
+        if (!parsed || !parsed.device) {
+            return { valid: false, message: "Provisioning XML root element must be <device>." };
+        }
+        return { valid: true, parsed };
+    } catch (error) {
+        return { valid: false, message: error.message };
+    }
 }
 module.exports = function(app) {
-    app.post('/api/createModifyDevice', (req, res) => {
+    app.post('/api/validateProvisioningXml', async (req, res) => {
+        if (req.session.loggedIn !== true) return res.status(401).send({ code: 1, message: "Not logged in" });
+
+        const validation = await validateProvisioningXml(req.body.xml);
+        if (!validation.valid) {
+            res.status(400).send({ code: 1, message: validation.message });
+            return;
+        }
+
+        res.send({ code: 0, message: "XML is valid." });
+    });
+
+    app.post('/api/createModifyDevice', async (req, res) => {
 
         //Make sure user is logged in
 
@@ -84,7 +98,9 @@ module.exports = function(app) {
             cache.devices[deviceIndex].ip = json.cust.deviceIP;
             cache.devices[deviceIndex].mac = json.meta.deviceMAC;
             cache.devices[deviceIndex].enabled = json.security.enableDevice;
-            cache.devices[deviceIndex].security.ipRestricted = json.security.ipSecurity;
+            cache.devices[deviceIndex].security.ipRestricted = json.security.ipRestriction;
+            cache.devices[deviceIndex].security.ipWhitelist = [json.security.ipRestrictionRangeStart, json.security.ipRestrictionRangeEnd];
+            cache.devices[deviceIndex].advancedXmlOverrideEnabled = json.advanced?.xmlOverrideEnabled === true;
             cache.devices[deviceIndex].createdAt = new Date();
         } else {
 
@@ -116,7 +132,41 @@ module.exports = function(app) {
                     ipRestricted: json.security.ipRestriction,
                     ipWhitelist: [json.security.ipRestrictionRangeStart, json.security.ipRestrictionRangeEnd]
                 },
+                advancedXmlOverrideEnabled: json.advanced?.xmlOverrideEnabled === true,
             });
+        }
+
+        const advancedXmlOverrideEnabled = json.advanced?.xmlOverrideEnabled === true;
+        const advancedXmlOverride = json.advanced?.xmlOverride || "";
+
+        if (advancedXmlOverrideEnabled) {
+            const validation = await validateProvisioningXml(advancedXmlOverride);
+            if (!validation.valid) {
+                res.status(400).send({ code: 1, message: `Advanced XML override is invalid: ${validation.message}` });
+                return;
+            }
+
+            const responseMethodText = deviceExists ? "Updated" : "Created";
+            createLog(1, `${responseMethodText} XML override configuration (SEP${json.meta.deviceMAC}.cnf.xml).`);
+            console.log(`${responseMethodText} XML override configuration (SEP${json.meta.deviceMAC}.cnf.xml).`);
+
+            serverData.save(cache);
+
+            fs.writeFile(path.join(__dirname, `../../data/config/SEP${json.meta.deviceMAC}.cnf.xml`), advancedXmlOverride, (err) => {
+                if(err) {
+                    console.log("Failed to write SEP.cnf.xml to file. " + err);
+                    res.send({code: 1, message: "Server failed to write provisioning file."});
+                    return;
+                }
+
+                res.send({code: 0, message: "Your XML override has been saved successfully."});
+
+                setTimeout(() => {
+                    console.log("New XML override posted by purge");
+                    serverData.forcePurge();
+                }, 2000);
+            });
+            return;
         }
 
         //Rebuild the SEP Configuration File
@@ -142,10 +192,9 @@ module.exports = function(app) {
 
         console.log("The Linedata: " + lineData);
 
-        let builtLineXML; //Will be processed from lineData
+        let builtLineXML = ""; //Will be processed from lineData
 
         //Read template.xml file in current directory
-        const path = require('path');
         let xmlTemplate = require('fs').readFileSync(path.join(__dirname, 'template.xml'), 'utf8');
 
         //Begin to replace the <!--ATTRIBUTE--> tags with the data from the JSON

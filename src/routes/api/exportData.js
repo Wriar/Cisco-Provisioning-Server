@@ -83,8 +83,13 @@ module.exports = function(app) {
                     return;
                 }
 
-                //console.log(result);
-                res.status(200).send({ code: 0, message: "Success", config: device, provision: result });
+                res.status(200).send({
+                    code: 0,
+                    message: "Success",
+                    config: device,
+                    provision: result,
+                    rawProvision: data.toString()
+                });
             });
         });
 

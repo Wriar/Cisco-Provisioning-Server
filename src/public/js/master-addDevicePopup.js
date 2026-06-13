@@ -77,6 +77,8 @@ function doSubmit(after) {
     const ipRestrictionRangeStart = document.getElementById("ipRestrictionRangeStart").value;
     const ipRestrictionRangeEnd = document.getElementById("ipRestrictionRangeEnd").value;
     const enableDevice = document.getElementById("enableDevice").checked;
+    const xmlOverrideEnabled = document.getElementById("xmlOverrideEnabled").checked;
+    const xmlOverride = document.getElementById("xmlOverride").value;
 
     /**
      * Retrieve Line Key Values
@@ -309,7 +311,11 @@ function doSubmit(after) {
             ipRestrictionRangeEnd: ipRestrictionRangeEnd,
             enableDevice: enableDevice,
         },
-        "lineKeys": lineKeyJSONConstruction
+        "lineKeys": lineKeyJSONConstruction,
+        "advanced": {
+            xmlOverrideEnabled: xmlOverrideEnabled,
+            xmlOverride: xmlOverride
+        }
     }
     console.log("SENDING:");
     console.log(xhrDataPacket);
@@ -321,7 +327,7 @@ function doSubmit(after) {
     xhr.send(JSON.stringify({ data: xhrDataPacket }));
 
     xhr.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        if (this.readyState === XMLHttpRequest.DONE && this.status >= 200 && this.status < 300) {
             // Request finished. Do processing here.
             console.log(this.responseText);
             alertHandle(JSON.parse(this.responseText).message, 0);
@@ -349,7 +355,54 @@ function doSubmit(after) {
             
             
         }
+        if (this.readyState === XMLHttpRequest.DONE && this.status >= 400) {
+            try {
+                alertHandle(JSON.parse(this.responseText).message, 1);
+            } catch (error) {
+                alertHandle("Configuration save failed.", 1);
+            }
+        }
     };
+}
+
+function setXmlOverrideStatus(message, isError = false) {
+    const status = document.getElementById('xmlOverrideStatus');
+    status.innerText = message || "";
+    status.classList.toggle('error', isError);
+}
+
+let lastLoadedRawProvision = "";
+
+function loadCurrentXmlIntoOverride() {
+    if (!lastLoadedRawProvision) {
+        setXmlOverrideStatus("No current provisioning XML has been loaded for this device yet.", true);
+        return;
+    }
+
+    document.getElementById('xmlOverride').value = lastLoadedRawProvision;
+    document.getElementById('xmlOverrideEnabled').checked = true;
+    setXmlOverrideStatus("Current XML loaded into override editor.");
+}
+
+function validateXmlOverride() {
+    const xml = document.getElementById('xmlOverride').value;
+    setXmlOverrideStatus("Validating XML...");
+
+    fetch('/api/validateProvisioningXml', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ xml })
+    })
+        .then(async (response) => {
+            const payload = await response.json();
+            if (!response.ok || payload.code !== 0) {
+                throw new Error(payload.message || "XML validation failed.");
+            }
+            setXmlOverrideStatus(payload.message);
+        })
+        .catch((error) => {
+            setXmlOverrideStatus(error.message, true);
+        });
 }
 
 let pState = null;
@@ -359,6 +412,7 @@ function showAllFieldsets() {
     document.getElementById('cpaFieldset').style.display = "block";
     document.getElementById('propFielset').style.display = "block";
     document.getElementById('securityFieldset').style.display = "block";
+    document.getElementById('advancedXmlFieldset').style.display = "block";
     document.getElementById('actionFieldset').style.display = "block";
     document.getElementById('deviceinfoFieldset').style.display = "block";
 }
@@ -368,6 +422,7 @@ function hideAllFieldsets() {
     document.getElementById('cpaFieldset').style.display = "none";
     document.getElementById('propFielset').style.display = "none";
     document.getElementById('securityFieldset').style.display = "none";
+    document.getElementById('advancedXmlFieldset').style.display = "none";
     document.getElementById('actionFieldset').style.display = "none";
     document.getElementById('deviceinfoFieldset').style.display = "none";
     document.getElementById('fieldset-info').style.display = "none";
@@ -407,18 +462,20 @@ function readPageQueryState() {
                     document.getElementById('dstatus-error').innerHTML = document.getElementById('dstatus-error').innerHTML.replace("<!--CONTEXT-->", `Could not load device due to Server Parser Error (2)`);
                     document.getElementById('dstatus-wait').style.display = "none";
                 }
+                lastLoadedRawProvision = response.rawProvision || "";
                 console.log(response);
-                //console.log(JSON.stringify(response));
-                console.log(parseResponseDoc(response.provision));
-                console.log(parseResponseDoc(response.provision).sipLines);
-                console.log(JSON.stringify(parseResponseDoc(response.provision).sipLines));
 
 
                 console.log(`[${new Date().toISOString()}] Retrived existing configuration.`);
 
                 //Run after 1s
                 setTimeout(function () {
-                    if(reimportDevice(parseResponseDoc(response.provision), response.config)) {
+                    const parsedProvision = parseResponseDoc(response.provision, response.config.advancedXmlOverrideEnabled === true);
+                    const didLoad = parsedProvision
+                        ? reimportDevice(parsedProvision, response.config)
+                        : reimportDeviceOverrideOnly(response.config);
+
+                    if(didLoad) {
                         showAllFieldsets();
                         document.getElementById('dstatus-wait').style.display = "none";
                         console.log(`[${new Date().toISOString()}] Loaded existing configuration`);
@@ -447,7 +504,7 @@ function readPageQueryState() {
  * @param {JSON} responseJSONObject Raw JSON response of the provisioning file
  * @returns {Map} Map of all the items to the corresponding line name
  */
-function parseResponseDoc(responseJSONObject) {
+function parseResponseDoc(responseJSONObject, quiet = false) {
     try {
 
     
@@ -490,12 +547,52 @@ function parseResponseDoc(responseJSONObject) {
       };
     } catch (e) {
         console.error(e);
-        document.getElementById('dstatus-error').style.display = "block";
-        document.getElementById('dstatus-error').innerHTML = document.getElementById('dstatus-error').innerHTML.replace("<!--CONTEXT-->", `Could not load device. Verify that configuration is not corrupt (ERR-JPARSER-1).`);
-        document.getElementById('dstatus-wait').style.display = "none";
+        if (!quiet) {
+            document.getElementById('dstatus-error').style.display = "block";
+            document.getElementById('dstatus-error').innerHTML = document.getElementById('dstatus-error').innerHTML.replace("<!--CONTEXT-->", `Could not load device. Verify that configuration is not corrupt (ERR-JPARSER-1).`);
+            document.getElementById('dstatus-wait').style.display = "none";
+        }
         return;
     }
 
+}
+
+function reimportDeviceOverrideOnly(deviceConfigData) {
+    if (deviceConfigData.advancedXmlOverrideEnabled !== true || !lastLoadedRawProvision) {
+        document.getElementById('dstatus-error').style.display = "block";
+        document.getElementById('dstatus-error').innerHTML = document.getElementById('dstatus-error').innerHTML.replace("<!--CONTEXT-->", `Could not load device. Verify that configuration is not corrupt (ERR-JPARSER-1).`);
+        document.getElementById('dstatus-wait').style.display = "none";
+        return false;
+    }
+
+    document.getElementById('deviceUUID').value = deviceConfigData.uuid;
+    document.getElementById('deviceName').value = deviceConfigData.name;
+    document.getElementById('deviceDescription').value = deviceConfigData.description;
+    document.getElementById('deviceExtension').value = deviceConfigData.extension;
+    document.getElementById('deviceMAC').value = deviceConfigData.mac;
+    document.getElementById('deviceIP').value = deviceConfigData.ip;
+    document.getElementById('deviceGroups').value = deviceConfigData.groups;
+    document.getElementById('xmlOverrideEnabled').checked = true;
+    document.getElementById('xmlOverride').value = lastLoadedRawProvision;
+    setXmlOverrideStatus("This device is using a full XML override. Structured fields could not be inferred from the custom XML.");
+
+    for (let i = 0; i < document.getElementById('deviceModel').options.length; i++) {
+        if (document.getElementById('deviceModel').options[i].innerText === deviceConfigData.model) {
+            document.getElementById('deviceModel').selectedIndex = i;
+            break;
+        }
+    }
+
+    if (deviceConfigData.security?.ipRestricted) {
+        document.getElementById('ipRestriction').checked = false;
+        document.getElementById('ipRestriction').click();
+        document.getElementById('ipRestrictionRangeStart').value = deviceConfigData.security.ipWhitelist[0];
+        document.getElementById('ipRestrictionRangeEnd').value = deviceConfigData.security.ipWhitelist[1];
+    }
+
+    document.getElementById('enableDevice').checked = deviceConfigData.enabled !== false;
+    document.getElementById('dstatus-ready').style.display = 'block';
+    return true;
 }
 
 function setPillRegistered(buttonIndex) {
@@ -523,6 +620,7 @@ function reimportDevice(deviceDataMap, deviceConfigData) {
     const disableSpeakerAndHeadset = deviceDataMap.disableSpeakerAndHeadset;
     const enableMuteFeature = deviceDataMap.enableMuteFeature;
     const deviceIP = deviceConfigData.ip;
+    const advancedXmlOverrideEnabled = deviceConfigData.advancedXmlOverrideEnabled === true;
 
     document.getElementById('deviceUUID').value = deviceConfigData.uuid;
     document.getElementById('deviceName').value = deviceConfigData.name;
@@ -543,6 +641,11 @@ function reimportDevice(deviceDataMap, deviceConfigData) {
     document.getElementById('enableMuteFeature').value = enableMuteFeature.toString();
 
     document.getElementById('deviceIP').value = deviceIP;
+    document.getElementById('xmlOverrideEnabled').checked = advancedXmlOverrideEnabled;
+    if (advancedXmlOverrideEnabled && lastLoadedRawProvision) {
+        document.getElementById('xmlOverride').value = lastLoadedRawProvision;
+        setXmlOverrideStatus("This device is using a full XML override.");
+    }
 
     document.getElementById('voipControlPort').value = voipControlPort;
 
