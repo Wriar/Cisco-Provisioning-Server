@@ -173,6 +173,10 @@ const defaultPhoneSettings = {
     idleTimeout: "0",
     authenticationURL: "http://provisioning.centurate.com/cisco.php",
     messagesURL: "",
+    freepbxVoicemailMenu: "1",
+    voicemailDialCode: "*97",
+    voicemailMailboxLoginCode: "*98",
+    voicemailMenuTitle: "FreePBX Voicemail",
     servicesURL: "",
     directoryURL: "",
     idleURL: "",
@@ -213,6 +217,10 @@ function normalizePhoneSettings(settings = {}) {
         ...defaultPhoneSettings,
         ...settings
     };
+}
+
+function getPublicBaseUrl(req) {
+    return (process.env.PUBLIC_BASE_URL || `${req.protocol}://${req.get('host')}`).replace(/\/+$/, "");
 }
 
 async function validateProvisioningXml(xml) {
@@ -283,6 +291,9 @@ module.exports = function(app) {
         console.log("Device Model: " + json.cust.deviceModel);
         console.log("Mapped Device Model from number: " + phoneModelMap[json.cust.deviceModel]);
         const phoneSettings = normalizePhoneSettings(json.phoneSettings);
+        if (phoneSettings.freepbxVoicemailMenu === "1" && phoneSettings.messagesURL.trim() === "") {
+            phoneSettings.messagesURL = `${getPublicBaseUrl(req)}/services/freepbx/voicemail?mac=${encodeURIComponent(json.meta.deviceMAC)}`;
+        }
         if (deviceExists) {
 
             //Replace the device in the cache's attributes
@@ -438,7 +449,7 @@ module.exports = function(app) {
                         <sharedLine>false</sharedLine>
                         <messageWaitingLampPolicy>3</messageWaitingLampPolicy>
                         <messageWaitingAMWI>0</messageWaitingAMWI>
-                        <messagesNumber></messagesNumber>
+                        <messagesNumber>${phoneSettings.voicemailDialCode}</messagesNumber>
                         <ringSettingIdle>4</ringSettingIdle>
                         <ringSettingActive>5</ringSettingActive>
                         <forwardCallInfoDisplay>
