@@ -44,7 +44,7 @@
         <!--End Navigation Elements-->
 
         <div class="menuItem" id="menuItem">
-            <button onclick="window.location = ('/dashboard/addDevice?amod=new');"><i class="icmn-plus3"></i> New Resource Group</button>
+            <button onclick="document.getElementById('wallpaperImage').click();"><i class="icmn-plus3"></i> Add Wallpaper</button>
             <button onclick="location.reload()"><i class="icmn-loop3"></i> Refresh</button>
         </div>
         <div class="internal">
@@ -59,6 +59,37 @@
                 </div>
                 <div class="tabBody">
                     <p><i class="icmn-info"></i> Resources created within this group will be available to all devices created within CPM, including devices that haven't been assigned a group.</p>
+
+                    <section class="resourceSection">
+                        <div class="sectionHeader">
+                            <div>
+                                <h2>Wallpapers</h2>
+                                <p>Cisco 8841/8845/8851/8861/8865 wallpapers use 800x480 images. Thumbnails are optional; Cisco recommends 139x109.</p>
+                            </div>
+                            <a href="/Desktops/800x480x24/List.xml" target="_blank">Open Cisco List.xml</a>
+                        </div>
+
+                        <form id="wallpaperForm" class="resourceForm">
+                            <label for="wallpaperName">Name</label>
+                            <input id="wallpaperName" name="name" type="text" placeholder="Lobby Wallpaper" required>
+
+                            <label for="wallpaperResolution">Phone Family</label>
+                            <select id="wallpaperResolution" name="resolution">
+                                <option value="800x480x24">8800 Series Color (800x480x24)</option>
+                            </select>
+
+                            <label for="wallpaperImage">Wallpaper Image</label>
+                            <input id="wallpaperImage" name="image" type="file" accept="image/png,image/jpeg" required>
+
+                            <label for="wallpaperThumbnail">Thumbnail</label>
+                            <input id="wallpaperThumbnail" name="thumbnail" type="file" accept="image/png,image/jpeg">
+
+                            <button type="submit"><i class="icmn-upload3"></i> Upload Wallpaper</button>
+                        </form>
+
+                        <div id="wallpaperStatus" class="resourceStatus"></div>
+                        <div id="wallpaperGrid" class="wallpaperGrid"></div>
+                    </section>
                 </div>
             </div>
 

@@ -150,3 +150,149 @@ footer {
         margin: 0;
     }
 }
+
+.resourceSection {
+    margin-top: 1.5rem;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    h2 {
+        margin: 0 0 0.25rem 0;
+        color: white;
+        font-weight: normal;
+    }
+
+    p {
+        color: gainsboro;
+        font-style: italic;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+        background-color: #4c6c7e;
+        padding: 0.5rem 0.75rem;
+        border-radius: 5px;
+        white-space: nowrap;
+    }
+}
+
+.resourceForm {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(140px, 1fr)) auto;
+    gap: 0.5rem;
+    align-items: end;
+    margin-bottom: 1rem;
+
+    label {
+        display: none;
+    }
+
+    input,
+    select,
+    button {
+        min-height: 38px;
+        border: 1px solid #5d879f;
+        border-radius: 5px;
+        background-color: rgb(41, 40, 40);
+        color: white;
+        padding: 0 0.5rem;
+    }
+
+    button {
+        background-color: #4c6c7e;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #5c7c8e;
+    }
+}
+
+.resourceStatus {
+    color: gainsboro;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.resourceStatus.error {
+    color: #ff7c7c;
+}
+
+.wallpaperGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.wallpaperCard {
+    background-color: rgb(62, 90, 106);
+    border-radius: 5px;
+    padding: 0.75rem;
+
+    img {
+        width: 100%;
+        aspect-ratio: 800 / 480;
+        object-fit: cover;
+        background-color: rgb(41, 40, 40);
+        border-radius: 3px;
+    }
+
+    h3 {
+        margin: 0.5rem 0 0.25rem 0;
+        color: white;
+        font-size: 1rem;
+        font-weight: normal;
+    }
+
+    p {
+        margin: 0;
+        color: gainsboro;
+        font-size: 0.85rem;
+    }
+
+    .actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+    }
+
+    a,
+    button {
+        flex: 1;
+        border: 0;
+        border-radius: 5px;
+        background-color: rgb(41, 40, 40);
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        padding: 0.45rem;
+        cursor: pointer;
+    }
+
+    button {
+        color: #ffb5b5;
+    }
+}
+
+@media (max-width: 900px) {
+    .sectionHeader {
+        flex-direction: column;
+    }
+
+    .resourceForm {
+        grid-template-columns: 1fr;
+
+        label {
+            display: block;
+            color: gainsboro;
+            margin-top: 0.4rem;
+        }
+    }
+}
