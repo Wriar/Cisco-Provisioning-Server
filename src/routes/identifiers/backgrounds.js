@@ -25,8 +25,8 @@ const upload = multer({
         fileSize: 5 * 1024 * 1024,
     },
     fileFilter: (req, file, cb) => {
-        if (!['image/png', 'image/jpeg'].includes(file.mimetype)) {
-            cb(new Error('Only PNG and JPEG images are supported.'));
+        if (file.mimetype !== 'image/png') {
+            cb(new Error('Only PNG images are supported for Cisco wallpapers.'));
             return;
         }
         cb(null, true);
@@ -52,7 +52,7 @@ function safeName(value) {
 }
 
 function extensionFor(file) {
-    return file.mimetype === 'image/jpeg' ? '.jpg' : '.png';
+    return '.png';
 }
 
 function getBackgrounds(data) {
@@ -69,8 +69,8 @@ function buildListXml(resolution) {
     const items = visibleBackgrounds()
         .filter((bg) => bg.resolution === resolution)
         .map((bg) => {
-            const image = `/Desktops/${resolution}/${bg.imageFile}`;
-            const thumbnail = `/Desktops/${resolution}/${bg.thumbnailFile || bg.imageFile}`;
+            const image = `TFTP:Desktops/${resolution}/${bg.imageFile}`;
+            const thumbnail = `TFTP:Desktops/${resolution}/${bg.thumbnailFile || bg.imageFile}`;
             return `  <ImageItem Image="${thumbnail}" URL="${image}"/>`;
         })
         .join('\n');
