@@ -1,4 +1,5 @@
 <h1 align="center" style="text-align: center;">Cisco Provisioning Manager 0.0.1a</h1>
+
 <p align="center" style="text-align: center;">A lightweight Node.JS management provisioning server + Webadmin Panel for Cisco Device Configurations. <br/>
   Intended for Cisco Devices with <b>Enterprise Firmware</b> running the <a href="https://github.com/usecallmanagernz/patches">UseCallManager</a> patch.</p>
 
@@ -42,6 +43,18 @@ Cisco Provisioning Manager (CPM) is a cutting-edge open-source solution designed
 2. **Log In:** Navigate to `localhost:6970/login` and user the default credentials ``admin``, ``admin``.
 
 3. **Setup Credentials (Optional):** The admin/admin login may be changed by creating a new account JSON object in ``src/data/data.json``. A bcrypt hash may be used by setting ``peEnable`` to true. Otherwise, a plaintext password may be used.
+
+## Docker
+
+CPM can be run with Docker Compose:
+
+```bash
+docker compose up -d
+```
+
+The compose file exposes the web/provisioning server on port `6970` and stores
+mutable data in the `cpm_data` Docker volume. See `docs/docker.md` for GHCR and
+OMV/Portainer deployment examples.
 
 ## Adding a device:
 1. Login to the CPM administration interface on ``localhost:6970/login``.

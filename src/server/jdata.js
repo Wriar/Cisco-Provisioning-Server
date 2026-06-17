@@ -1,5 +1,5 @@
 const fs = require('fs');
-const dataFile = process.env.DATA_FILE || "/src/data/data.json";
+const dataFile = process.env.DATA_FILE || "./src/data/data.json";
 
 let cache = null;
 

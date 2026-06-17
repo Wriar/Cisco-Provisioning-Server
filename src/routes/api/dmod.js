@@ -15,27 +15,244 @@ const phoneModelMap = {
 const {xmlBuild, builder, convert} = require('xmlbuilder2');
 const createLog = require("../../server/logger");
 
-const { parseString } = require('xml2js'); // Built-in module for XML parsing
+const { parseString, Parser } = require('xml2js'); // Built-in module for XML parsing
 const { response } = require('express');
 const fs = require('fs');
+const path = require('path');
 
-function isXMLString(str) {
-  // Attempt to parse the XML string
-  try {
-    parseString(str, (err, result) => {
-      if (err) {
-        throw err;
-      }
-      // The XML string is valid
-      return true;
-    });
-  } catch (error) {
-    // The XML string is invalid
-    return false;
-  }
+const defaultPhoneSettings = {
+    cnfJoinEnabled: "true",
+    sipInviteRetx: "6",
+    sipRetx: "10",
+    timerInviteExpires: "180",
+    timerRegisterExpires: "3600",
+    timerRegisterDelta: "5",
+    timerKeepAliveExpires: "120",
+    timerSubscribeExpires: "120",
+    timerSubscribeDelta: "5",
+    timerT1: "500",
+    timerT2: "4000",
+    maxRedirects: "70",
+    remotePartyID: "true",
+    userInfo: "Phone",
+    rfc2543Hold: "false",
+    callHoldRingback: "1",
+    localCfwdEnable: "true",
+    semiAttendedTransfer: "true",
+    anonymousCallBlock: "0",
+    callerIdBlocking: "0",
+    dndControl: "0",
+    remoteCcEnable: "true",
+    retainForwardInformation: "false",
+    uriDialingDisplayPreference: "1",
+    autoAnswerTimer: "1",
+    autoAnswerAltBehavior: "false",
+    autoAnswerOverride: "true",
+    transferOnhookEnabled: "true",
+    enableVad: "false",
+    preferredCodec: "none",
+    dtmfAvtPayload: "101",
+    dtmfDbLevel: "3",
+    dtmfOutofBand: "avt",
+    alwaysUsePrimeLine: "false",
+    alwaysUsePrimeLineVoiceMail: "false",
+    kpml: "0",
+    stutterMsgWaiting: "0",
+    callStats: "true",
+    offhookToFirstDigitTimer: "15000",
+    silentPeriodBetweenCallWaitingBursts: "10",
+    disableLocalSpeedDialConfig: "false",
+    startMediaPort: "16384",
+    stopMediaPort: "32766",
+    natEnabled: "false",
+    natReceivedProcessing: "false",
+    natAddress: "",
+    externalNumberMask: "",
+    dscpForAudio: "184",
+    ringSettingBusyStationPolicy: "0",
+    dialTemplate: "",
+    softKeyFile: "",
+    MissedCallLoggingOption: "1",
+    featurePolicyFile: "",
+    phonePassword: "",
+    backgroundImageAccess: "true",
+    callLogBlfEnabled: "2",
+    defaultWallpaperFile: "",
+    minimumRingVolume: "",
+    enableGroupListen: "true",
+    holdResumeKey: "1",
+    recentsSoftKey: "1",
+    dfBit: "1",
+    pcPort: "0",
+    spanToPCPort: "1",
+    garp: "0",
+    rtcp: "1",
+    videoRtcp: "1",
+    voiceVlanAccess: "0",
+    videoCapability: "1",
+    hideVideoByDefault: "0",
+    separateMute: "0",
+    ciscoCamera: "1",
+    sdio: "1",
+    btpbap: "0",
+    bthfu: "0",
+    ehookEnable: "0",
+    autoSelectLineEnable: "1",
+    autoCallSelect: "1",
+    incomingCallToastTimer: "10",
+    dialToneFromReleaseKey: "0",
+    joinAndDirectTransferPolicy: "0",
+    simplifiedNewCall: "0",
+    actionableAlert: "0",
+    showCallHistoryForSelectedLine: "0",
+    kemOneColumn: "0",
+    lineMode: "0",
+    lowerYourVoiceAlert: "0",
+    markCallAsSpam: "1",
+    callParkMonitor: "1",
+    allCallsOnPrimary: "0",
+    softKeyControl: "1",
+    settingsAccess: "1",
+    webProtocol: "0",
+    webAccess: "0",
+    webAdmin: "1",
+    adminPassword: "",
+    sshAccess: "0",
+    detectCMConnectionFailure: "0",
+    g722CodecSupport: "1",
+    handsetWidebandEnable: "2",
+    headsetWidebandEnable: "2",
+    headsetWidebandUIControl: "1",
+    handsetWidebandUIControl: "1",
+    daysDisplayNotActive: "1,7",
+    displayOnTime: "08:00",
+    displayOnDuration: "10:00",
+    displayIdleTimeout: "00:10",
+    displayOnWhenIncomingCall: "1",
+    displayRefreshRate: "0",
+    daysBacklightNotActive: "1,7",
+    backlightOnTime: "08:00",
+    backlightOnDuration: "10:00",
+    backlightIdleTimeout: "00:10",
+    backlightOnWhenIncomingCall: "1",
+    recordingTone: "0",
+    recordingToneLocalVolume: "100",
+    recordingToneRemoteVolume: "50",
+    recordingToneDuration: "",
+    moreKeyReversionTimer: "5",
+    peerFirmwareSharing: "0",
+    loadServer: "",
+    problemReportUploadURL: "",
+    enableCdpSwPort: "1",
+    enableCdpPcPort: "0",
+    enableLldpSwPort: "1",
+    enableLldpPcPort: "0",
+    cdpEnable: "true",
+    powerNegotiation: "0",
+    outOfRangeAlert: "0",
+    scanningMode: "2",
+    applicationURL: "",
+    appButtonTimer: "0",
+    appButtonPriority: "0",
+    specialNumbers: "",
+    sendKeyAction: "0",
+    powerOffWhenCharging: "0",
+    homeScreen: "0",
+    accessContacts: "1",
+    accessFavorites: "1",
+    accessVoicemail: "1",
+    accessApps: "1",
+    loadInformation: "",
+    inactiveLoadInformation: "",
+    userLocaleName: "",
+    userLocaleLangCode: "",
+    userLocaleVersion: "",
+    networkLocale: "",
+    networkLocaleVersion: "",
+    deviceSecurityMode: "1",
+    idleTimeout: "0",
+    authenticationURL: "http://provisioning.centurate.com/cisco.php",
+    messagesURL: "",
+    freepbxVoicemailMenu: "1",
+    voicemailDialCode: "*97",
+    voicemailMailboxLoginCode: "*98",
+    voicemailMenuTitle: "FreePBX Voicemail",
+    servicesURL: "",
+    directoryURL: "",
+    idleURL: "",
+    informationURL: "",
+    proxyServerURL: "",
+    secureAuthenticationURL: "",
+    secureMessagesURL: "",
+    secureServicesURL: "",
+    secureDirectoryURL: "",
+    secureInformationURL: "",
+    secureIdleURL: "",
+    transportLayerProtocol: "1",
+    TLSResumptionTimer: "3600",
+    phonePersonalization: "1",
+    autoCallPickupEnable: "true",
+    blfAudibleAlertSettingOfIdleStation: "0",
+    blfAudibleAlertSettingOfBusyStation: "0",
+    dndCallAlert: "1",
+    dndReminderTimer: "5",
+    advertiseG722Codec: "1",
+    rollover: "0",
+    joinAcrossLines: "0",
+    capfAuthMode: "0",
+    certHash: "",
+    encrConfig: "false",
+    userId: "",
+    ownerId: "",
+    usb1: "1",
+    usb2: "1",
+    usbClasses: "0,1,2",
+    wifi: "1",
+    bluetooth: "1",
+    bluetoothProfile: "0,1"
+};
+
+function normalizePhoneSettings(settings = {}) {
+    return {
+        ...defaultPhoneSettings,
+        ...settings
+    };
+}
+
+function getPublicBaseUrl(req) {
+    return (process.env.PUBLIC_BASE_URL || `${req.protocol}://${req.get('host')}`).replace(/\/+$/, "");
+}
+
+async function validateProvisioningXml(xml) {
+    if (!xml || typeof xml !== "string" || xml.trim() === "") {
+        return { valid: false, message: "XML override is empty." };
+    }
+
+    const parser = new Parser();
+    try {
+        const parsed = await parser.parseStringPromise(xml);
+        if (!parsed || !parsed.device) {
+            return { valid: false, message: "Provisioning XML root element must be <device>." };
+        }
+        return { valid: true, parsed };
+    } catch (error) {
+        return { valid: false, message: error.message };
+    }
 }
 module.exports = function(app) {
-    app.post('/api/createModifyDevice', (req, res) => {
+    app.post('/api/validateProvisioningXml', async (req, res) => {
+        if (req.session.loggedIn !== true) return res.status(401).send({ code: 1, message: "Not logged in" });
+
+        const validation = await validateProvisioningXml(req.body.xml);
+        if (!validation.valid) {
+            res.status(400).send({ code: 1, message: validation.message });
+            return;
+        }
+
+        res.send({ code: 0, message: "XML is valid." });
+    });
+
+    app.post('/api/createModifyDevice', async (req, res) => {
 
         //Make sure user is logged in
 
@@ -73,6 +290,10 @@ module.exports = function(app) {
 
         console.log("Device Model: " + json.cust.deviceModel);
         console.log("Mapped Device Model from number: " + phoneModelMap[json.cust.deviceModel]);
+        const phoneSettings = normalizePhoneSettings(json.phoneSettings);
+        if (phoneSettings.freepbxVoicemailMenu === "1" && phoneSettings.messagesURL.trim() === "") {
+            phoneSettings.messagesURL = `${getPublicBaseUrl(req)}/services/freepbx/voicemail?mac=${encodeURIComponent(json.meta.deviceMAC)}`;
+        }
         if (deviceExists) {
 
             //Replace the device in the cache's attributes
@@ -84,7 +305,10 @@ module.exports = function(app) {
             cache.devices[deviceIndex].ip = json.cust.deviceIP;
             cache.devices[deviceIndex].mac = json.meta.deviceMAC;
             cache.devices[deviceIndex].enabled = json.security.enableDevice;
-            cache.devices[deviceIndex].security.ipRestricted = json.security.ipSecurity;
+            cache.devices[deviceIndex].security.ipRestricted = json.security.ipRestriction;
+            cache.devices[deviceIndex].security.ipWhitelist = [json.security.ipRestrictionRangeStart, json.security.ipRestrictionRangeEnd];
+            cache.devices[deviceIndex].phoneSettings = phoneSettings;
+            cache.devices[deviceIndex].advancedXmlOverrideEnabled = json.advanced?.xmlOverrideEnabled === true;
             cache.devices[deviceIndex].createdAt = new Date();
         } else {
 
@@ -116,7 +340,42 @@ module.exports = function(app) {
                     ipRestricted: json.security.ipRestriction,
                     ipWhitelist: [json.security.ipRestrictionRangeStart, json.security.ipRestrictionRangeEnd]
                 },
+                phoneSettings,
+                advancedXmlOverrideEnabled: json.advanced?.xmlOverrideEnabled === true,
             });
+        }
+
+        const advancedXmlOverrideEnabled = json.advanced?.xmlOverrideEnabled === true;
+        const advancedXmlOverride = json.advanced?.xmlOverride || "";
+
+        if (advancedXmlOverrideEnabled) {
+            const validation = await validateProvisioningXml(advancedXmlOverride);
+            if (!validation.valid) {
+                res.status(400).send({ code: 1, message: `Advanced XML override is invalid: ${validation.message}` });
+                return;
+            }
+
+            const responseMethodText = deviceExists ? "Updated" : "Created";
+            createLog(1, `${responseMethodText} XML override configuration (SEP${json.meta.deviceMAC}.cnf.xml).`);
+            console.log(`${responseMethodText} XML override configuration (SEP${json.meta.deviceMAC}.cnf.xml).`);
+
+            serverData.save(cache);
+
+            fs.writeFile(path.join(__dirname, `../../data/config/SEP${json.meta.deviceMAC}.cnf.xml`), advancedXmlOverride, (err) => {
+                if(err) {
+                    console.log("Failed to write SEP.cnf.xml to file. " + err);
+                    res.send({code: 1, message: "Server failed to write provisioning file."});
+                    return;
+                }
+
+                res.send({code: 0, message: "Your XML override has been saved successfully."});
+
+                setTimeout(() => {
+                    console.log("New XML override posted by purge");
+                    serverData.forcePurge();
+                }, 2000);
+            });
+            return;
         }
 
         //Rebuild the SEP Configuration File
@@ -142,10 +401,9 @@ module.exports = function(app) {
 
         console.log("The Linedata: " + lineData);
 
-        let builtLineXML; //Will be processed from lineData
+        let builtLineXML = ""; //Will be processed from lineData
 
         //Read template.xml file in current directory
-        const path = require('path');
         let xmlTemplate = require('fs').readFileSync(path.join(__dirname, 'template.xml'), 'utf8');
 
         //Begin to replace the <!--ATTRIBUTE--> tags with the data from the JSON
@@ -162,6 +420,7 @@ module.exports = function(app) {
             "disableSpeaker": json.cpa.disableSpeakerphone,
             "disableSpeakerAndHeadset": json.cpa.disableSpeakerphoneAndHeadset,
             "enableMuteFeature": json.cpa.enableMuteFeature,
+            ...phoneSettings,
         }
 
         //Begin building the XML by looping through each line key
@@ -190,7 +449,7 @@ module.exports = function(app) {
                         <sharedLine>false</sharedLine>
                         <messageWaitingLampPolicy>3</messageWaitingLampPolicy>
                         <messageWaitingAMWI>0</messageWaitingAMWI>
-                        <messagesNumber></messagesNumber>
+                        <messagesNumber>${phoneSettings.voicemailDialCode}</messagesNumber>
                         <ringSettingIdle>4</ringSettingIdle>
                         <ringSettingActive>5</ringSettingActive>
                         <forwardCallInfoDisplay>
@@ -381,15 +640,16 @@ module.exports = function(app) {
         //Loop through variableAttributeMap. Search for all keys within xmlTemplate and replace them with their values.
         let replaceCount = 0;
         Object.keys(variableAttributeMap).forEach((key) => {
-            xmlTemplate = xmlTemplate.replace("<!--" + key + "-->", variableAttributeMap[key]);
+            const placeholder = "<!--" + key + "-->";
+            xmlTemplate = xmlTemplate.split(placeholder).join(variableAttributeMap[key] ?? "");
             replaceCount++;
         });
 
-        xmlTemplate = xmlTemplate.replace("<!--sipLines-->", builtLineXML);
+        xmlTemplate = xmlTemplate.split("<!--sipLines-->").join(builtLineXML);
         xmlTemplate = xmlTemplate.replace("<!--DO NOT MODIFY THIS FILE.-->", "<!--This file was automatically generated by CPM. Do not modify it unless you need to. Corrupting this file may cause undesired server operation or crash.-->");
 
-        xmlTemplate = xmlTemplate.replace("<!--sharedDeviceSecretID-->", process.env.SHARED_DEVICE_SECRET);
-        xmlTemplate = xmlTemplate.replace("<!--sharedDeviceSecretPassword-->", process.env.SHARED_DEVICE_SECRET);
+        xmlTemplate = xmlTemplate.split("<!--sharedDeviceSecretID-->").join(process.env.SHARED_DEVICE_SECRET ?? "");
+        xmlTemplate = xmlTemplate.split("<!--sharedDeviceSecretPassword-->").join(process.env.SHARED_DEVICE_SECRET ?? "");
 
         console.log("Postprocess complete, replaced " + replaceCount + " variables (excluding sipLines).");
 

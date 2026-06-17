@@ -42,6 +42,14 @@
   background-color: dimgray;
   cursor: pointer;
 }
+.sidebar a.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.sidebar a.disabled:hover {
+  background-color: transparent;
+  cursor: not-allowed;
+}
 .sidebar .first {
   margin-top: 1rem;
 }

@@ -422,6 +422,12 @@
         </div>
     </fieldset>
 
+    <fieldset id="phoneSettingsFieldset">
+        <legend>Phone Settings</legend>
+        <span><i class="icmn-info"></i> Friendly controls for Cisco Enterprise XML settings. Use Advanced XML for fields not listed here.</span>
+        <div id="phoneSettingsSections" class="settingsSections"></div>
+    </fieldset>
+
     <fieldset id="propFielset">
         <legend>Additional Properties</legend>
         <div class="form">
@@ -482,6 +488,26 @@
         
         
 
+    </fieldset>
+
+    <fieldset id="advancedXmlFieldset">
+        <legend>Advanced XML</legend>
+
+        <div class="warning">
+            <p><i class="icmn-warning"></i> Full XML override replaces the generated SEP configuration for this device. Use this for advanced Cisco settings that CPM does not expose yet.</p>
+        </div>
+
+        <div class="advancedXmlControls">
+            <label for="xmlOverrideEnabled">
+                <input type="checkbox" id="xmlOverrideEnabled" autocomplete="off" />
+                Enable full XML override
+            </label>
+            <button type="button" onclick="loadCurrentXmlIntoOverride();" class="cfa-s"><i class="icmn-file-xml"></i> Load Current XML</button>
+            <button type="button" onclick="validateXmlOverride();" class="cfa-s"><i class="icmn-checkmark-circle"></i> Validate XML</button>
+        </div>
+
+        <textarea id="xmlOverride" spellcheck="false" placeholder="Paste a complete <device>...</device> Cisco SEP XML configuration here."></textarea>
+        <p id="xmlOverrideStatus" class="xmlOverrideStatus"></p>
     </fieldset>
 
     <fieldset id="actionFieldset">

@@ -1,0 +1,16 @@
+.git
+.github
+.env
+.env.*
+node_modules
+npm-debug.log*
+coverage
+.nyc_output
+.cache
+.parcel-cache
+.vscode
+.idea
+*.log
+Dockerfile
+compose*.yaml
+compose*.yml
